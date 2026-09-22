@@ -24,6 +24,9 @@ builder.Services.AddScoped<AuthService>();
 // Register user and prosumer business logic service.
 builder.Services.AddScoped<UserService>();
 
+// Register administrator bootstrap service for initial setup.
+builder.Services.AddScoped<AdminBootstrapService>();
+
 // Read JWT configuration from application configuration and User Secrets.
 var jwtKey = builder.Configuration["Jwt:Key"];
 var jwtIssuer = builder.Configuration["Jwt:Issuer"];
@@ -125,6 +128,16 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 var app = builder.Build();
+
+// Create the initial Backoffice administrator account if required.
+using (var scope = app.Services.CreateScope())
+{
+    var bootstrapService =
+        scope.ServiceProvider
+            .GetRequiredService<AdminBootstrapService>();
+
+    await bootstrapService.CreateInitialAdminAsync();
+}
 
 // Enable Swagger during development.
 if (app.Environment.IsDevelopment())
