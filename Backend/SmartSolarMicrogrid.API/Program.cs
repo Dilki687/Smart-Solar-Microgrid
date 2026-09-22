@@ -9,6 +9,18 @@ var builder = WebApplication.CreateBuilder(args);
 // Add MVC controllers to the application.
 builder.Services.AddControllers();
 
+// Configure CORS to allow requests from the web frontend.
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("WebFrontend", policy =>
+    {
+        policy
+            .WithOrigins("http://localhost:5173")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 // Register MongoDB access as a singleton service.
 builder.Services.AddSingleton<MongoDbService>();
 
@@ -148,6 +160,9 @@ if (app.Environment.IsDevelopment())
 
 // Redirect HTTP requests to HTTPS when HTTPS is configured.
 app.UseHttpsRedirection();
+
+// Enable CORS for requests from the web frontend.
+app.UseCors("WebFrontend");
 
 // Enable authentication before authorization.
 app.UseAuthentication();
