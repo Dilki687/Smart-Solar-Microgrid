@@ -1,39 +1,77 @@
 using MongoDB.Driver;
+using SmartSolarMicrogrid.API.Models;
 
-namespace SmartSolarMicrogrid.API.Services
+namespace SmartSolarMicrogrid.API.Services;
+
+/// Provides access to the MongoDB database used by the Smart Solar Microgrid API.
+public class MongoDbService
 {
-    public class MongoDbService
+    private readonly IMongoDatabase _database;
+
+    /// Creates the MongoDB client and connects to the configured database.
+    public MongoDbService(IConfiguration configuration)
     {
-        private readonly IMongoDatabase _database;
+        var connectionString =
+            configuration["MongoDb:ConnectionString"];
 
-        public MongoDbService(IConfiguration configuration)
+        var databaseName =
+            configuration["MongoDb:DatabaseName"];
+
+        if (string.IsNullOrWhiteSpace(connectionString))
         {
-            var connectionString =
-                configuration["MongoDb:ConnectionString"];
-
-            var databaseName =
-                configuration["MongoDb:DatabaseName"];
-
-            if (string.IsNullOrWhiteSpace(connectionString))
-            {
-                throw new InvalidOperationException(
-                    "MongoDb:ConnectionString is not configured.");
-            }
-
-            if (string.IsNullOrWhiteSpace(databaseName))
-            {
-                throw new InvalidOperationException(
-                    "MongoDb:DatabaseName is not configured.");
-            }
-
-            var client = new MongoClient(connectionString);
-
-            _database = client.GetDatabase(databaseName);
+            throw new InvalidOperationException(
+                "MongoDb:ConnectionString is not configured.");
         }
 
-        public IMongoDatabase GetDatabase()
+        if (string.IsNullOrWhiteSpace(databaseName))
         {
-            return _database;
+            throw new InvalidOperationException(
+                "MongoDb:DatabaseName is not configured.");
         }
+
+        var client = new MongoClient(connectionString);
+
+        _database = client.GetDatabase(databaseName);
+
+        CreateIndexes();
+    }
+
+    /// Returns the MongoDB database.
+    public IMongoDatabase GetDatabase()
+    {
+        return _database;
+    }
+
+    /// Returns the Users collection.
+    public IMongoCollection<User> GetUsersCollection()
+    {
+        return _database.GetCollection<User>("Users");
+    }
+
+    /// Creates unique indexes for NIC and email fields.
+    private void CreateIndexes()
+    {
+        var users = GetUsersCollection();
+
+        var nicIndex = new CreateIndexModel<User>(
+            Builders<User>.IndexKeys.Ascending(x => x.NIC),
+            new CreateIndexOptions
+            {
+                Unique = true
+            });
+
+        var emailIndex = new CreateIndexModel<User>(
+            Builders<User>.IndexKeys.Ascending(x => x.Email),
+            new CreateIndexOptions
+            {
+                Unique = true
+            });
+
+        users.Indexes.CreateMany(
+            new[]
+            {
+                nicIndex,
+                emailIndex
+            });
     }
 }
