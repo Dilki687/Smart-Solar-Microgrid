@@ -7,9 +7,12 @@ import BackofficeDashboard from "./pages/backoffice/BackofficeDashboard";
 import GridOperatorDashboard from "./pages/gridoperator/GridOperatorDashboard";
 import ProsumerDashboard from "./pages/prosumer/ProsumerDashboard";
 import UnauthorizedPage from "./pages/UnauthorizedPage";
-import ComingSoonPage from "./pages/ComingSoonPage";
+// import ComingSoonPage from "./pages/ComingSoonPage";
 import UserManagementPage from "./pages/backoffice/UserManagementPage";
 import ProsumerManagementPage from "./pages/backoffice/ProsumerManagementPage";
+import DeactivationRequestsPage from "./pages/backoffice/DeactivationRequestsPage";
+import ProsumerRegistrationPage from "./pages/auth/ProsumerRegistrationPage";
+import ProsumerProfilePage from "./pages/prosumer/ProsumerProfilePage";
 
 function App() {
   return (
@@ -33,7 +36,7 @@ function App() {
 
             <Route
               path="/backoffice/deactivation-requests"
-              element={<ComingSoonPage title="Deactivation Requests" />}
+              element={<DeactivationRequestsPage />}
             />
           </Route>
 
@@ -45,12 +48,16 @@ function App() {
           {/* Prosumer routes */}
           <Route element={<RoleRoute allowedRoles={["PROSUMER"]} />}>
             <Route path="/prosumer" element={<ProsumerDashboard />} />
+
+            <Route path="/prosumer/profile" element={<ProsumerProfilePage />} />
           </Route>
 
           {/* Unauthorized */}
           <Route path="/unauthorized" element={<UnauthorizedPage />} />
         </Route>
       </Route>
+
+      <Route path="/register/prosumer" element={<ProsumerRegistrationPage />} />
 
       {/* Default route */}
       <Route path="/" element={<Navigate to="/login" replace />} />

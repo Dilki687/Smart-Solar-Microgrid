@@ -113,6 +113,15 @@ const LoginPage = () => {
           <button type="submit" disabled={loading}>
             {loading ? "Signing in..." : "Sign In"}
           </button>
+          <p className="registration-link">
+            New to the system?{" "}
+            <button
+              type="button"
+              onClick={() => navigate("/register/prosumer")}
+            >
+              Register as Prosumer
+            </button>
+          </p>
         </form>
       </div>
     </div>

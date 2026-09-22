@@ -20,7 +20,9 @@ import type {
  * Get a prosumer using their NIC.
  */
 export const getProsumerByNic = async (nic: string): Promise<Prosumer> => {
-  const response = await api.get(`/api/prosumers/${encodeURIComponent(nic)}`);
+  const response = await api.get<Prosumer>(
+    `/api/prosumers/${encodeURIComponent(nic)}`,
+  );
 
   return response.data;
 };
@@ -63,7 +65,20 @@ export const getDeactivationRequests = async (): Promise<
 > => {
   const response = await api.get("/api/prosumers/deactivation-requests");
 
-  return response.data;
+  /*
+   * The backend currently returns the request collection.
+   * Support both a direct array and a wrapped response so
+   * the frontend remains tolerant of the API response shape.
+   */
+  if (Array.isArray(response.data)) {
+    return response.data;
+  }
+
+  if (Array.isArray(response.data?.requests)) {
+    return response.data.requests;
+  }
+
+  return [];
 };
 
 /**
