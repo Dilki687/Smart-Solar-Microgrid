@@ -9,6 +9,7 @@ import ProsumerDashboard from "./pages/prosumer/ProsumerDashboard";
 import UnauthorizedPage from "./pages/UnauthorizedPage";
 import ComingSoonPage from "./pages/ComingSoonPage";
 import UserManagementPage from "./pages/backoffice/UserManagementPage";
+import ProsumerManagementPage from "./pages/backoffice/ProsumerManagementPage";
 
 function App() {
   return (
@@ -27,7 +28,7 @@ function App() {
 
             <Route
               path="/backoffice/prosumers"
-              element={<ComingSoonPage title="Prosumer Management" />}
+              element={<ProsumerManagementPage />}
             />
 
             <Route

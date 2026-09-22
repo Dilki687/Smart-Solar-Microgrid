@@ -71,12 +71,30 @@ export interface UpdateUserRequest {
 }
 
 export interface Prosumer {
+  userId?: string;
   nic: string;
   name: string;
   email: string;
   phone: string;
   address: string;
   status: AccountStatus;
+  createdAt?: string;
+}
+
+export interface CreateProsumerRequest {
+  nic: string;
+  name: string;
+  email: string;
+  phone: string;
+  address: string;
+  password: string;
+}
+
+export interface UpdateProsumerRequest {
+  name: string;
+  email: string;
+  phone: string;
+  address: string;
 }
 
 export interface DeactivationRequest {

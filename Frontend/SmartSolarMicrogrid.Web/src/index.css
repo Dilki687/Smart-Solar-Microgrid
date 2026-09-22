@@ -1036,6 +1036,92 @@ button {
   color: #166534;
 }
 
+/* =========================================
+   Prosumer Management
+   ========================================= */
+
+.prosumer-search-form {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+.prosumer-search-form .form-group {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.prosumer-search-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.prosumer-details-card {
+  margin-top: 20px;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 20px;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px;
+  background: #f8fafc;
+  border-radius: 10px;
+}
+
+.detail-item span {
+  color: #64748b;
+  font-size: 13px;
+}
+
+.detail-item strong {
+  color: #1e293b;
+  font-size: 15px;
+}
+
+.detail-item-full {
+  grid-column: 1 / -1;
+}
+
+.prosumer-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #e5e7eb;
+}
+
+@media (max-width: 700px) {
+  .prosumer-search-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .prosumer-search-actions {
+    width: 100%;
+  }
+
+  .prosumer-search-actions button {
+    flex: 1;
+  }
+
+  .details-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-item-full {
+    grid-column: auto;
+  }
+}
+
 /* =========================================================
    RESPONSIVE
    ========================================================= */
