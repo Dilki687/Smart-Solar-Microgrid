@@ -1,20 +1,14 @@
 import { Navigate, Route, Routes } from "react-router";
-
 import LoginPage from "./pages/auth/LoginPage";
-
 import ProtectedRoute from "./components/ProtectedRoute";
-
 import RoleRoute from "./components/RoleRoute";
-
 import DashboardLayout from "./layouts/DashboardLayout";
-
 import BackofficeDashboard from "./pages/backoffice/BackofficeDashboard";
-
 import GridOperatorDashboard from "./pages/gridoperator/GridOperatorDashboard";
-
 import ProsumerDashboard from "./pages/prosumer/ProsumerDashboard";
-
 import UnauthorizedPage from "./pages/UnauthorizedPage";
+import ComingSoonPage from "./pages/ComingSoonPage";
+import UserManagementPage from "./pages/backoffice/UserManagementPage";
 
 function App() {
   return (
@@ -28,6 +22,18 @@ function App() {
           {/* Backoffice routes */}
           <Route element={<RoleRoute allowedRoles={["BACKOFFICE"]} />}>
             <Route path="/backoffice" element={<BackofficeDashboard />} />
+
+            <Route path="/backoffice/users" element={<UserManagementPage />} />
+
+            <Route
+              path="/backoffice/prosumers"
+              element={<ComingSoonPage title="Prosumer Management" />}
+            />
+
+            <Route
+              path="/backoffice/deactivation-requests"
+              element={<ComingSoonPage title="Deactivation Requests" />}
+            />
           </Route>
 
           {/* Grid Operator routes */}

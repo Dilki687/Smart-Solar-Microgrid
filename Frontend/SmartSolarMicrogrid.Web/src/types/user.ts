@@ -36,6 +36,22 @@ export interface User {
   createdAt?: string;
 }
 
+export interface ApiUser {
+  id: string;
+  nic: string;
+  name: string;
+  email: string;
+  role: UserRole;
+  status: AccountStatus;
+  phone?: string;
+  address?: string;
+  createdAt?: string;
+}
+
+export interface UsersResponse {
+  users: User[];
+}
+
 export interface CreateUserRequest {
   nic: string;
   name: string;

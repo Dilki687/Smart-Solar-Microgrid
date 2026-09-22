@@ -1,14 +1,16 @@
-import { Link, Outlet, useNavigate } from "react-router";
+import { Outlet, useNavigate } from "react-router";
 
 import { useAuth } from "../context/AuthContext";
+
+import Sidebar from "../components/Sidebar";
 
 /*
  * Smart Solar Microgrid Trading System
  * Module: Web Frontend
  * Component: Dashboard Layout
  * Author: Dilki
- * Description: Provides the common navigation layout for
- *              authenticated users.
+ * Description: Provides the shared application layout including
+ *              sidebar navigation, top navigation and page content.
  */
 
 const DashboardLayout = () => {
@@ -20,29 +22,39 @@ const DashboardLayout = () => {
     // Log out through the authentication context.
     await logout();
 
-    // Return the user to the login page.
+    // Redirect the user to the login page.
     navigate("/login");
   };
 
   return (
-    <div className="app-layout">
-      <header className="topbar">
-        <div>
-          <strong>Smart Solar Microgrid</strong>
-        </div>
+    <div className="app-shell">
+      <Sidebar />
 
-        <div className="user-section">
-          <span>{user?.name}</span>
+      <div className="content-area">
+        <header className="topbar">
+          <div className="topbar-title">Smart Solar Microgrid</div>
 
-          <span className="role-badge">{user?.role}</span>
+          <div className="topbar-user">
+            <div className="topbar-user-details">
+              <strong>{user?.name}</strong>
 
-          <button onClick={handleLogout}>Logout</button>
-        </div>
-      </header>
+              <span>{user?.role}</span>
+            </div>
 
-      <main className="main-content">
-        <Outlet />
-      </main>
+            <div className="topbar-avatar">
+              {user?.name?.charAt(0).toUpperCase()}
+            </div>
+
+            <button className="logout-button" onClick={handleLogout}>
+              Logout
+            </button>
+          </div>
+        </header>
+
+        <main className="page-content">
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 };

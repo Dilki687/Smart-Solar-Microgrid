@@ -5,21 +5,62 @@ import { Link } from "react-router";
  * Module: Web Frontend
  * Component: Backoffice Dashboard
  * Author: Dilki
- * Description: Main dashboard for Backoffice users.
+ * Description: Provides the main dashboard for Backoffice users
+ *              and navigation to user management functions.
  */
 
 const BackofficeDashboard = () => {
   return (
     <div>
-      <h1>Backoffice Dashboard</h1>
+      <div className="dashboard-header">
+        <h1>Backoffice Dashboard</h1>
 
-      <p>Welcome to the Smart Solar Microgrid Backoffice system.</p>
+        <p>
+          Manage users, Prosumer accounts and account deactivation requests.
+        </p>
+      </div>
 
-      <div className="dashboard-links">
-        <Link to="/backoffice/users">Manage Users</Link>
+      <div className="dashboard-grid">
+        <div className="stat-card">
+          <div className="stat-card-label">User Management</div>
 
-        <Link to="/backoffice/deactivation-requests">
-          Prosumer Deactivation Requests
+          <div className="stat-card-value">→</div>
+        </div>
+
+        <div className="stat-card">
+          <div className="stat-card-label">Deactivation Requests</div>
+
+          <div className="stat-card-value">→</div>
+        </div>
+
+        <div className="stat-card">
+          <div className="stat-card-label">Account Administration</div>
+
+          <div className="stat-card-value">✓</div>
+        </div>
+      </div>
+
+      <h2>Quick Actions</h2>
+
+      <div className="quick-actions">
+        <Link to="/backoffice/users" className="action-card">
+          <h3>Manage Users</h3>
+
+          <p>
+            Create, update and deactivate Backoffice and Grid Operator accounts.
+          </p>
+        </Link>
+
+        <Link to="/backoffice/prosumers" className="action-card">
+          <h3>Manage Prosumers</h3>
+
+          <p>View Prosumer account information and account status.</p>
+        </Link>
+
+        <Link to="/backoffice/deactivation-requests" className="action-card">
+          <h3>Deactivation Requests</h3>
+
+          <p>Review Prosumer deactivation requests and approve them.</p>
         </Link>
       </div>
     </div>
