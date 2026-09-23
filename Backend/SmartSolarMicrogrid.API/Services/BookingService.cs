@@ -977,7 +977,9 @@ public async Task<(bool Success, int StatusCode, object Response)>
         }
     );
 }
+/// <summary>
 /// Updates an existing booking slot while preserving existing reservations.
+/// </summary>
 public async Task<(bool Success, int StatusCode, object Response)>
     UpdateBookingSlotAsync(
         string slotId,
@@ -986,6 +988,7 @@ public async Task<(bool Success, int StatusCode, object Response)>
     var slots = _mongoDbService.GetBookingSlotsCollection();
     var reservations = _mongoDbService.GetReservationsCollection();
 
+    // Find the active booking slot.
     var slot = await slots
         .Find(x => x.SlotId == slotId && x.IsActive)
         .FirstOrDefaultAsync();
@@ -1001,6 +1004,7 @@ public async Task<(bool Success, int StatusCode, object Response)>
             });
     }
 
+    // Validate the booking time range.
     if (request.StartTime >= request.EndTime)
     {
         return (
@@ -1012,6 +1016,7 @@ public async Task<(bool Success, int StatusCode, object Response)>
             });
     }
 
+    // Validate capacity.
     if (request.TotalCapacity <= 0)
     {
         return (
@@ -1023,9 +1028,44 @@ public async Task<(bool Success, int StatusCode, object Response)>
             });
     }
 
+    // Convert incoming times to UTC.
+    var requestedStartTime =
+        request.StartTime.ToUniversalTime();
+
+    var requestedEndTime =
+        request.EndTime.ToUniversalTime();
+
+    // Determine whether the schedule is changing.
+    var scheduleChanged =
+        requestedStartTime != slot.StartTime ||
+        requestedEndTime != slot.EndTime;
+
+    // Check for pending or confirmed reservations.
+    var hasActiveReservations = await reservations
+        .Find(x =>
+            x.SlotId == slotId &&
+            (x.Status == BookingStatus.PENDING ||
+             x.Status == BookingStatus.CONFIRMED))
+        .AnyAsync();
+
+    // Prevent schedule changes when active reservations exist.
+    if (scheduleChanged && hasActiveReservations)
+    {
+        return (
+            false,
+            409,
+            new
+            {
+                message =
+                    "Booking slot schedule cannot be changed because active reservations exist."
+            });
+    }
+
+    // Calculate currently reserved capacity.
     var reservedCapacity =
         slot.TotalCapacity - slot.AvailableCapacity;
 
+    // Prevent capacity from becoming lower than reserved capacity.
     if (request.TotalCapacity < reservedCapacity)
     {
         return (
@@ -1038,18 +1078,33 @@ public async Task<(bool Success, int StatusCode, object Response)>
             });
     }
 
+    // Build the update.
     var update = Builders<EnergyBookingSlot>.Update
-        .Set(x => x.StartTime, request.StartTime.ToUniversalTime())
-        .Set(x => x.EndTime, request.EndTime.ToUniversalTime())
+        .Set(x => x.StartTime, requestedStartTime)
+        .Set(x => x.EndTime, requestedEndTime)
         .Set(x => x.TotalCapacity, request.TotalCapacity)
         .Set(
             x => x.AvailableCapacity,
             request.TotalCapacity - reservedCapacity)
         .Set(x => x.UpdatedAt, DateTime.UtcNow);
 
-    await slots.UpdateOneAsync(
+    // Apply the update only to the active slot.
+    var updateResult = await slots.UpdateOneAsync(
         x => x.SlotId == slotId && x.IsActive,
         update);
+
+    // Confirm that the slot was updated.
+    if (updateResult.ModifiedCount == 0)
+    {
+        return (
+            false,
+            409,
+            new
+            {
+                message =
+                    "The booking slot could not be updated."
+            });
+    }
 
     return (
         true,
@@ -1057,9 +1112,15 @@ public async Task<(bool Success, int StatusCode, object Response)>
         new
         {
             message = "Booking slot updated successfully.",
-            slotId = slotId
+            slotId,
+            startTime = requestedStartTime,
+            endTime = requestedEndTime,
+            totalCapacity = request.TotalCapacity,
+            availableCapacity =
+                request.TotalCapacity - reservedCapacity
         });
 }
+
 /// Deactivates a booking slot if it has no active reservations.
 public async Task<(bool Success, int StatusCode, object Response)>
     DeactivateBookingSlotAsync(string slotId)
