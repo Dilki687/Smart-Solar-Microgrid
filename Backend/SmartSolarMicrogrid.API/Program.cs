@@ -36,6 +36,9 @@ builder.Services.AddScoped<AuthService>();
 // Register user and prosumer business logic service.
 builder.Services.AddScoped<UserService>();
 
+// Register station business logic service.
+builder.Services.AddScoped<StationService>();
+
 // Register administrator bootstrap service for initial setup.
 builder.Services.AddScoped<AdminBootstrapService>();
 

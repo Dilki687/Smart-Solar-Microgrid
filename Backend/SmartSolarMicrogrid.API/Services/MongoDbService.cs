@@ -48,7 +48,13 @@ public class MongoDbService
         return _database.GetCollection<User>("Users");
     }
 
-    /// Creates unique indexes for NIC and email fields.
+    /// Returns the solar stations collection.
+    public IMongoCollection<SolarStationInfo> GetStationsCollection()
+    {
+        return _database.GetCollection<SolarStationInfo>("SolarStations");
+    }
+
+    /// Creates unique indexes for users and stations.
     private void CreateIndexes()
     {
         var users = GetUsersCollection();
@@ -73,5 +79,16 @@ public class MongoDbService
                 nicIndex,
                 emailIndex
             });
+
+        var stations = GetStationsCollection();
+
+        var stationIdIndex = new CreateIndexModel<SolarStationInfo>(
+            Builders<SolarStationInfo>.IndexKeys.Ascending(x => x.StationId),
+            new CreateIndexOptions
+            {
+                Unique = true
+            });
+
+        stations.Indexes.CreateOne(stationIdIndex);
     }
 }
