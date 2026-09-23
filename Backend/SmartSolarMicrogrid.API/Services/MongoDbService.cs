@@ -54,7 +54,21 @@ public class MongoDbService
         return _database.GetCollection<SolarStationInfo>("SolarStations");
     }
 
-    /// Creates unique indexes for users and stations.
+    /// Returns the energy booking slots collection.
+    public IMongoCollection<EnergyBookingSlot> GetBookingSlotsCollection()
+    {
+        return _database.GetCollection<EnergyBookingSlot>(
+            "EnergyBookingSlots");
+    }
+
+    /// Returns the energy reservations collection.
+    public IMongoCollection<EnergyReservation> GetReservationsCollection()
+    {
+        return _database.GetCollection<EnergyReservation>(
+            "EnergyReservations");
+    }
+
+    /// Creates unique indexes for users, stations, slots, and reservations.
     private void CreateIndexes()
     {
         var users = GetUsersCollection();
@@ -90,5 +104,28 @@ public class MongoDbService
             });
 
         stations.Indexes.CreateOne(stationIdIndex);
+
+        var bookingSlots = GetBookingSlotsCollection();
+
+        var slotIdIndex = new CreateIndexModel<EnergyBookingSlot>(
+            Builders<EnergyBookingSlot>.IndexKeys.Ascending(x => x.SlotId),
+            new CreateIndexOptions
+            {
+                Unique = true
+            });
+
+        bookingSlots.Indexes.CreateOne(slotIdIndex);
+
+        var reservations = GetReservationsCollection();
+
+        var reservationIdIndex = new CreateIndexModel<EnergyReservation>(
+            Builders<EnergyReservation>.IndexKeys.Ascending(
+                x => x.ReservationId),
+            new CreateIndexOptions
+            {
+                Unique = true
+            });
+
+        reservations.Indexes.CreateOne(reservationIdIndex);
     }
 }

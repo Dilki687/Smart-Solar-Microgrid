@@ -66,6 +66,40 @@ public class StationsController : ControllerBase
         });
     }
 
+/// Updates an existing solar station.
+[HttpPut("{stationId}")]
+public async Task<IActionResult> UpdateStation(
+    string stationId,
+    [FromBody] UpdateStationRequest request)
+{
+    if (!ModelState.IsValid)
+    {
+        return ValidationProblem(ModelState);
+    }
+
+    var result =
+        await _stationService.UpdateStationAsync(
+            stationId,
+            request);
+
+    return StatusCode(
+        result.StatusCode,
+        result.Response);
+}
+/// Deactivates a solar station if it has no active reservations.
+[HttpPatch("{stationId}/deactivate")]
+public async Task<IActionResult> DeactivateStation(
+    string stationId)
+{
+    var result =
+        await _stationService.DeactivateStationAsync(
+            stationId);
+
+    return StatusCode(
+        result.StatusCode,
+        result.Response);
+}
+
     /// Retrieves a station by its application-level ID.
     [HttpGet("{stationId}")]
     public async Task<IActionResult> GetStation(
@@ -96,4 +130,34 @@ public class StationsController : ControllerBase
             updatedAt = station.UpdatedAt
         });
     }
+    // Retrieves active solar stations near the user's location.
+[HttpGet("/api/nodes/nearby")]
+[AllowAnonymous]
+public async Task<IActionResult> GetNearbyStations(
+    [FromQuery] double latitude,
+    [FromQuery] double longitude,
+    [FromQuery] double radiusKm = 10)
+{
+    // Validate the search radius.
+    if (radiusKm <= 0)
+    {
+        return BadRequest(new
+        {
+            message = "Radius must be greater than zero."
+        });
+    }
+
+    // Retrieve nearby stations through the station service.
+    var stations =
+        await _stationService.GetNearbyStationsAsync(
+            latitude,
+            longitude,
+            radiusKm);
+
+    // Return the nearby stations.
+    return Ok(new
+    {
+        stations
+    });
+}
 }

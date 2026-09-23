@@ -38,6 +38,8 @@ builder.Services.AddScoped<UserService>();
 
 // Register station business logic service.
 builder.Services.AddScoped<StationService>();
+// Register station Booking service
+builder.Services.AddScoped<BookingService>();
 
 // Register administrator bootstrap service for initial setup.
 builder.Services.AddScoped<AdminBootstrapService>();
