@@ -27,7 +27,7 @@ public class EnergyReservation
     public BookingStatus Status { get; set; } = BookingStatus.PENDING;
     // Indicates whether an update is waiting for operator approval.
 public bool HasPendingChange { get; set; } = false;
-
+public string? ChangeRequestStatus { get; set; }
 // Stores the requested new slot.
 public string? PendingSlotId { get; set; }
 
@@ -46,4 +46,5 @@ public double? PendingEnergyAmountKwh { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+    
 }

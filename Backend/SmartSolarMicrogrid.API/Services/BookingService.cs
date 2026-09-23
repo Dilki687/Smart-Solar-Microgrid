@@ -120,6 +120,44 @@ public class BookingService
             .SortBy(x => x.StartTime)
             .ToListAsync();
     }
+    // Retrieves reservations for Backoffice and Grid Operator users.
+public async Task<List<EnergyReservation>> GetReservationsAsync(
+    string? status = null)
+{
+    var reservations =
+        _mongoDbService.GetReservationsCollection();
+
+    var filter =
+        Builders<EnergyReservation>.Filter.Empty;
+
+    if (!string.IsNullOrWhiteSpace(status) &&
+        Enum.TryParse<BookingStatus>(
+            status,
+            true,
+            out var bookingStatus))
+    {
+        filter &= Builders<EnergyReservation>.Filter.Eq(
+            x => x.Status,
+            bookingStatus);
+    }
+
+    return await reservations
+        .Find(filter)
+        .SortByDescending(x => x.CreatedAt)
+        .ToListAsync();
+}
+// Retrieves reservations belonging to the authenticated prosumer.
+public async Task<List<EnergyReservation>> GetMyReservationsAsync(
+    string prosumerUserId)
+{
+    var reservations =
+        _mongoDbService.GetReservationsCollection();
+
+    return await reservations
+        .Find(x => x.ProsumerUserId == prosumerUserId)
+        .SortByDescending(x => x.CreatedAt)
+        .ToListAsync();
+}
     // Creates a pending reservation for a prosumer.
 public async Task<(bool Success, int StatusCode, object Response)>
     CreateReservationAsync(
@@ -479,7 +517,10 @@ public async Task<(bool Success, int StatusCode, object Response)>
         return (
             false,
             404,
-            new { message = "Reservation not found." }
+            new
+            {
+                message = "Reservation not found."
+            }
         );
     }
 
@@ -606,17 +647,32 @@ public async Task<(bool Success, int StatusCode, object Response)>
         );
     }
 
-    // Store the requested changes without changing the original booking.
+    // Store the requested changes without changing
+    // the original booking.
     var update = Builders<EnergyReservation>.Update
         .Set(x => x.HasPendingChange, true)
+
+        // NEW:
+        // Record that the change request is waiting
+        // for Backoffice/Grid Operator approval.
+        .Set(x => x.ChangeRequestStatus, "PENDING")
+
         .Set(x => x.PendingSlotId, request.SlotId)
+
         .Set(x => x.PendingStationId, newSlot.StationId)
-        .Set(x => x.PendingScheduledStartTime,
+
+        .Set(
+            x => x.PendingScheduledStartTime,
             request.ScheduledStartTime)
-        .Set(x => x.PendingScheduledEndTime,
+
+        .Set(
+            x => x.PendingScheduledEndTime,
             request.ScheduledEndTime)
-        .Set(x => x.PendingEnergyAmountKwh,
+
+        .Set(
+            x => x.PendingEnergyAmountKwh,
             request.EnergyAmountKwh)
+
         .Set(x => x.UpdatedAt, DateTime.UtcNow);
 
     // Save the pending change.
@@ -632,8 +688,12 @@ public async Task<(bool Success, int StatusCode, object Response)>
         {
             message =
                 "Reservation update request submitted successfully.",
+
             reservationId,
-            hasPendingChange = true
+
+            hasPendingChange = true,
+
+            changeRequestStatus = "PENDING"
         }
     );
 }
@@ -656,7 +716,10 @@ public async Task<(bool Success, int StatusCode, object Response)>
         return (
             false,
             404,
-            new { message = "Reservation not found." }
+            new
+            {
+                message = "Reservation not found."
+            }
         );
     }
 
@@ -672,7 +735,8 @@ public async Task<(bool Success, int StatusCode, object Response)>
             400,
             new
             {
-                message = "No pending change exists for this reservation."
+                message =
+                    "No pending change exists for this reservation."
             }
         );
     }
@@ -690,7 +754,11 @@ public async Task<(bool Success, int StatusCode, object Response)>
         return (
             false,
             404,
-            new { message = "The requested slot was not found." }
+            new
+            {
+                message =
+                    "The requested slot was not found."
+            }
         );
     }
 
@@ -703,13 +771,15 @@ public async Task<(bool Success, int StatusCode, object Response)>
             400,
             new
             {
-                message = "The requested slot has no available capacity."
+                message =
+                    "The requested slot has no available capacity."
             }
         );
     }
 
     // Check whether the reservation is moving to another slot.
-    var slotChanged = newSlot.SlotId != reservation.SlotId;
+    var slotChanged =
+        newSlot.SlotId != reservation.SlotId;
 
     if (slotChanged)
     {
@@ -719,6 +789,7 @@ public async Task<(bool Success, int StatusCode, object Response)>
                 Builders<EnergyBookingSlot>.Filter.Eq(
                     x => x.SlotId,
                     newSlot.SlotId),
+
                 Builders<EnergyBookingSlot>.Filter.Gt(
                     x => x.AvailableCapacity,
                     0));
@@ -757,21 +828,45 @@ public async Task<(bool Success, int StatusCode, object Response)>
 
     // Apply the pending change to the reservation.
     var update = Builders<EnergyReservation>.Update
-        .Set(x => x.SlotId, reservation.PendingSlotId)
-        .Set(x => x.StationId, reservation.PendingStationId)
-        .Set(x => x.ScheduledStartTime,
+
+        .Set(
+            x => x.SlotId,
+            reservation.PendingSlotId)
+
+        .Set(
+            x => x.StationId,
+            reservation.PendingStationId)
+
+        .Set(
+            x => x.ScheduledStartTime,
             reservation.PendingScheduledStartTime.Value)
-        .Set(x => x.ScheduledEndTime,
+
+        .Set(
+            x => x.ScheduledEndTime,
             reservation.PendingScheduledEndTime.Value)
-        .Set(x => x.EnergyAmountKwh,
+
+        .Set(
+            x => x.EnergyAmountKwh,
             reservation.PendingEnergyAmountKwh.Value)
+
         .Set(x => x.HasPendingChange, false)
+
+        // NEW:
+        // Tell the Prosumer that the change was approved.
+        .Set(x => x.ChangeRequestStatus, "APPROVED")
+
         .Set(x => x.PendingSlotId, null)
+
         .Set(x => x.PendingStationId, null)
+
         .Set(x => x.PendingScheduledStartTime, null)
+
         .Set(x => x.PendingScheduledEndTime, null)
+
         .Set(x => x.PendingEnergyAmountKwh, null)
+
         .Set(x => x.Status, BookingStatus.CONFIRMED)
+
         .Set(x => x.UpdatedAt, DateTime.UtcNow);
 
     // Save the updated reservation.
@@ -790,7 +885,9 @@ public async Task<(bool Success, int StatusCode, object Response)>
         200,
         new
         {
-            message = "Reservation change approved successfully.",
+            message =
+                "Reservation change approved successfully.",
+
             reservation = updatedReservation
         }
     );
@@ -849,15 +946,30 @@ public async Task<(bool Success, int StatusCode, object Response)>
         );
     }
 
-    // Reject the pending change and preserve the original booking.
+    // Reject the pending change and preserve
+    // the original booking.
     var update = Builders<EnergyReservation>.Update
+
         .Set(x => x.HasPendingChange, false)
+
+        // NEW:
+        // Tell the Prosumer that the change was rejected.
+        .Set(x => x.ChangeRequestStatus, "REJECTED")
+
         .Set(x => x.PendingSlotId, null)
+
         .Set(x => x.PendingStationId, null)
+
         .Set(x => x.PendingScheduledStartTime, null)
+
         .Set(x => x.PendingScheduledEndTime, null)
+
         .Set(x => x.PendingEnergyAmountKwh, null)
-        .Set(x => x.CancellationReason, reason)
+
+        // Store the rejection reason so the Prosumer
+        // can see why the request was rejected.
+        .Set(x => x.CancellationReason, reason.Trim())
+
         .Set(x => x.UpdatedAt, DateTime.UtcNow);
 
     // Save the rejection.
@@ -878,6 +990,7 @@ public async Task<(bool Success, int StatusCode, object Response)>
         {
             message =
                 "Reservation change rejected successfully.",
+
             reservation = updatedReservation
         }
     );

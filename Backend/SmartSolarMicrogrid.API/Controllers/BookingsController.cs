@@ -238,4 +238,43 @@ public async Task<IActionResult> DeactivateBookingSlot(
         result.StatusCode,
         result.Response);
 }
+// Retrieves reservations for Backoffice and Grid Operator users.
+[HttpGet("reservations")]
+[Authorize(Roles = UserRole.Backoffice + "," + UserRole.GridOperator)]
+public async Task<IActionResult> GetReservations(
+    [FromQuery] string? status = null)
+{
+    var reservations =
+        await _bookingService.GetReservationsAsync(status);
+
+    return Ok(new
+    {
+        reservations
+    });
+}
+// Retrieves reservations belonging to the authenticated prosumer.
+[HttpGet("reservations/my")]
+[Authorize(Roles = UserRole.Prosumer)]
+public async Task<IActionResult> GetMyReservations()
+{
+    var prosumerUserId =
+        User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+    if (string.IsNullOrWhiteSpace(prosumerUserId))
+    {
+        return Unauthorized(new
+        {
+            message = "User identity could not be determined."
+        });
+    }
+
+    var reservations =
+        await _bookingService.GetMyReservationsAsync(
+            prosumerUserId);
+
+    return Ok(new
+    {
+        reservations
+    });
+}
 }
