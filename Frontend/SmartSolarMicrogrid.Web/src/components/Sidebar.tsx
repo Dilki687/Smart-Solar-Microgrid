@@ -61,22 +61,60 @@ const Sidebar = () => {
               <span>⚠</span>
               Deactivation Requests
             </NavLink>
+            <NavLink
+  to="/backoffice/booking-slots"
+  className={({ isActive }) =>
+    `nav-link ${isActive ? "active" : ""}`
+  }
+> 
+<span>🗓</span>
+  Booking Slots
+</NavLink>
+<NavLink
+  to="/backoffice/reservations"
+  className={({ isActive }) =>
+    `nav-link ${isActive ? "active" : ""}`
+  }
+>
+   <span>📋</span>
+  Reservations
+</NavLink>
+            <NavLink
+  to="/backoffice/stations"
+  className={({ isActive }) =>
+    isActive ? "nav-link active" : "nav-link"
+  }
+>
+  <span>📍</span>
+  Stations
+</NavLink>
           </>
         )}
 
         {user?.role === "GRID_OPERATOR" && (
-          <NavLink
-            to="/grid-operator"
-            end
-            className={({ isActive }) =>
-              isActive ? "nav-link active" : "nav-link"
-            }
-          >
-            <span>▣</span>
-            Dashboard
-          </NavLink>
-        )}
+  <>
+    <NavLink
+      to="/grid-operator"
+      end
+      className={({ isActive }) =>
+        isActive ? "nav-link active" : "nav-link"
+      }
+    >
+      <span>▣</span>
+      Dashboard
+    </NavLink>
 
+    <NavLink
+      to="/grid-operator/nearby"
+      className={({ isActive }) =>
+        isActive ? "nav-link active" : "nav-link"
+      }
+    >
+      <span>📍</span>
+      Nearby Stations
+    </NavLink>
+  </>
+)}
         {user?.role === "PROSUMER" && (
           <>
             <NavLink
@@ -89,6 +127,23 @@ const Sidebar = () => {
               <span>▣</span>
               Dashboard
             </NavLink>
+            <NavLink
+  to="/prosumer/booking"
+  className={({ isActive }) =>
+    `nav-link ${isActive ? "active" : ""}`
+  }
+>
+  <span>🗓</span>
+  Booking
+</NavLink>
+<NavLink
+  to="/prosumer/reservations"
+  className={({ isActive }) =>
+    `nav-link ${isActive ? "active" : ""}`
+  }
+><span>🗓</span>
+  My Reservations
+</NavLink>
 
             <NavLink
               to="/prosumer/profile"

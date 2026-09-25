@@ -3,7 +3,6 @@ import type {
   CreateUserRequest,
   UpdateUserRequest,
   User,
-  UserRole,
 } from "../types/user";
 
 /*

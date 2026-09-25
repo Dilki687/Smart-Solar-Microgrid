@@ -13,7 +13,12 @@ import ProsumerManagementPage from "./pages/backoffice/ProsumerManagementPage";
 import DeactivationRequestsPage from "./pages/backoffice/DeactivationRequestsPage";
 import ProsumerRegistrationPage from "./pages/auth/ProsumerRegistrationPage";
 import ProsumerProfilePage from "./pages/prosumer/ProsumerProfilePage";
-
+import StationManagementPage from "./pages/backoffice/StationManagementPage";
+import BookingSlotManagementPage from "./pages/backoffice/BookingSlotManagementPage";
+import ReservationManagementPage from "./pages/backoffice/ReservationManagementPage";
+import BookingPage from "./pages/prosumer/BookingPage";
+import MyReservationsPage from "./pages/prosumer/MyReservationsPage";
+import NearbyStationsPage from "./pages/gridoperator/NearbyStationsPage";
 function App() {
   return (
     <Routes>
@@ -38,11 +43,27 @@ function App() {
               path="/backoffice/deactivation-requests"
               element={<DeactivationRequestsPage />}
             />
+            <Route
+              path="/backoffice/stations"
+              element={<StationManagementPage />}
+            />
+            <Route
+  path="/backoffice/booking-slots"
+  element={<BookingSlotManagementPage />}
+/>
+            <Route
+              path="/backoffice/reservations"
+              element={<ReservationManagementPage />}
+            />
           </Route>
 
           {/* Grid Operator routes */}
           <Route element={<RoleRoute allowedRoles={["GRID_OPERATOR"]} />}>
             <Route path="/grid-operator" element={<GridOperatorDashboard />} />
+            <Route
+  path="/grid-operator/nearby"
+  element={<NearbyStationsPage />}
+/>
           </Route>
 
           {/* Prosumer routes */}
@@ -50,6 +71,14 @@ function App() {
             <Route path="/prosumer" element={<ProsumerDashboard />} />
 
             <Route path="/prosumer/profile" element={<ProsumerProfilePage />} />
+            <Route
+  path="/prosumer/booking"
+  element={<BookingPage />}
+/>
+<Route
+  path="/prosumer/reservations"
+  element={<MyReservationsPage />}
+/>
           </Route>
 
           {/* Unauthorized */}
