@@ -10,8 +10,16 @@ public class OperatorService(MongoDbService mongo)
         var user = await mongo.GetUsersCollection().Find(x => x.UserId == operatorId).FirstOrDefaultAsync();
         if (user?.Role != UserRole.GridOperator || user.AccountStatus != AccountStatus.Active)
             return (false, 403, new { message = "An active Grid Operator account is required." });
-        var stations = await mongo.GetStationsCollection()
-            .Find(x => x.Status == AccountStatus.Active)
+        var allStations = await mongo.GetStationsCollection()
+            .Find(_ => true)
+            .ToListAsync();
+        var stations = allStations
+            .Where(x => string.Equals(x.Status, AccountStatus.Active, StringComparison.OrdinalIgnoreCase))
+            .ToList();
+        var activeStationIds = stations.Select(x => x.StationId).ToList();
+        var activeSlots = await mongo.GetBookingSlotsCollection()
+            .Find(Builders<EnergyBookingSlot>.Filter.In(x => x.StationId, activeStationIds) &
+                  Builders<EnergyBookingSlot>.Filter.Where(x => x.IsActive && x.EndTime > DateTime.UtcNow))
             .ToListAsync();
         var ids = stations.Select(x => x.StationId).ToList();
         var reservations = await mongo.GetReservationsCollection()
@@ -35,6 +43,10 @@ public class OperatorService(MongoDbService mongo)
             upcomingBookings = upcoming.Count,
             pendingBookings = active.Count(x => x.Status == BookingStatus.PENDING),
             completedBookings = reservations.Count(x => x.Status == BookingStatus.COMPLETED),
+            totalStations = allStations.Count,
+            activeStations = stations.Count,
+            inactiveStations = allStations.Count - stations.Count,
+            availableSlotCapacity = activeSlots.Sum(x => x.AvailableCapacity),
             today,
             upcoming,
             stations = stations.Select(x => new

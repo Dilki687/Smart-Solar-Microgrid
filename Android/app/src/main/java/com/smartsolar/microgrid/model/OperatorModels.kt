@@ -14,6 +14,8 @@ data class OperatorSlot(
 data class OperatorDashboard(
     val operatorName: String, val timeZone: String,
     val todayBookings: Int, val upcomingBookings: Int, val pendingBookings: Int, val completedBookings: Int,
+    val totalStations: Int = 0, val activeStations: Int = 0, val inactiveStations: Int = 0,
+    val availableSlotCapacity: Int = 0,
     val today: List<Reservation>, val upcoming: List<Reservation>,
     val stations: List<OperatorStation>, val slots: List<OperatorSlot>,
 )
