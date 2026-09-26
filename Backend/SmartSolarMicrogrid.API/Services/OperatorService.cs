@@ -39,7 +39,11 @@ public class OperatorService(MongoDbService mongo)
             upcoming,
             stations = stations.Select(x => new
             {
-                x.StationId, x.Name, x.Status, x.Latitude, x.Longitude
+                x.StationId,
+                x.Name,
+                x.Status,
+                x.Latitude,
+                x.Longitude
             }),
             slots
         });
