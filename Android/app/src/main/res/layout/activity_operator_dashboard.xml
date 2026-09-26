@@ -149,51 +149,23 @@
         android:textColor="@color/text_primary"
         android:textSize="20sp"
         android:textStyle="bold" />
-      <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnScan"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:minHeight="72dp"
-        android:gravity="center_vertical|start"
-        android:paddingStart="20dp"
-        android:text="Scan QR&#10;Verify prosumer transaction"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:backgroundTint="@color/tone_green_fg"
-        app:icon="@drawable/ic_nav_station"
-        app:iconTint="@color/white"
-        app:iconPadding="16dp" />
       <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
         <com.google.android.material.button.MaterialButton
+          android:id="@+id/btnNearbyStations"
           android:layout_width="0dp"
           android:layout_height="72dp"
           android:layout_marginEnd="5dp"
           android:layout_weight="1"
-          android:text="Station Map&#10;Find nearby stations"
+          android:text="Find nearby Stations"
           android:textAllCaps="false"
           android:textColor="@color/text_primary"
           android:textSize="12sp"
           android:backgroundTint="@color/surface_card"
           app:icon="@drawable/ic_nav_station"
-          app:iconTint="@color/tone_blue_fg" />
-        <com.google.android.material.button.MaterialButton
-          android:layout_width="0dp"
-          android:layout_height="72dp"
-          android:layout_marginStart="5dp"
-          android:layout_weight="1"
-          android:text="Bookings&#10;View reservations"
-          android:textAllCaps="false"
-          android:textColor="@color/text_primary"
-          android:textSize="12sp"
-          android:backgroundTint="@color/surface_card"
-          app:icon="@drawable/ic_nav_list"
           app:iconTint="@color/tone_blue_fg" />
       </LinearLayout>
 
@@ -210,7 +182,6 @@
     <TextView android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:text="▦&#10;Dashboard" android:textColor="@color/tone_green_fg" android:textSize="11sp" android:textStyle="bold" />
     <TextView android:id="@+id/btnBottomScan" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:text="⌗&#10;Scan QR" android:textColor="@color/text_secondary" android:textSize="11sp" />
     <TextView android:id="@+id/btnBottomMap" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:text="⌖&#10;Map" android:textColor="@color/text_secondary" android:textSize="11sp" />
-    <TextView android:id="@+id/btnBottomHistory" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:text="▤&#10;History" android:textColor="@color/text_secondary" android:textSize="11sp" />
     <TextView android:id="@+id/btnOperatorLogout" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:text="♙&#10;Profile" android:textColor="@color/text_secondary" android:textSize="11sp" />
   </LinearLayout>
 </LinearLayout>

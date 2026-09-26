@@ -20,6 +20,13 @@ import retrofit2.http.Query
  */
 interface StationApi {
 
+    @GET("api/nodes/nearby")
+    suspend fun getNearbyStations(
+        @Query("latitude") latitude: Double,
+        @Query("longitude") longitude: Double,
+        @Query("radiusKm") radiusKm: Double,
+    ): Response<com.smartsolar.microgrid.model.NearbyStationsResponse>
+
     /** GET /api/stations?status=ACTIVE */
     @GET("api/stations")
     suspend fun getStations(

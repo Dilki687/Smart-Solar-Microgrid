@@ -23,3 +23,17 @@ data class Station(
 data class StationsResponse(
     val stations: List<Station> = emptyList(),
 )
+
+data class NearbyStation(
+    val nodeId: String,
+    val name: String,
+    val latitude: Double,
+    val longitude: Double,
+    val distanceKm: Double,
+    val availableSlots: Int,
+    val status: String,
+)
+
+data class NearbyStationsResponse(
+    val stations: List<NearbyStation> = emptyList(),
+)

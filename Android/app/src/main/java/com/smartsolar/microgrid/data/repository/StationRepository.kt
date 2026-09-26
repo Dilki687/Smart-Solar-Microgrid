@@ -12,6 +12,14 @@ import retrofit2.Response
  */
 class StationRepository {
 
+    suspend fun getNearbyStations(
+        latitude: Double,
+        longitude: Double,
+        radiusKm: Double,
+    ): Result<List<com.smartsolar.microgrid.model.NearbyStation>> = safe {
+        ApiClient.stationApi.getNearbyStations(latitude, longitude, radiusKm)
+    }.map { it.stations }
+
     suspend fun getStations(
         status: String? = null,
     ): Result<List<Station>> = safe {
