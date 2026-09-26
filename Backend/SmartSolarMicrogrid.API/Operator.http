@@ -1,0 +1,48 @@
+@baseUrl = http://localhost:5147
+@prosumerToken = REPLACE_WITH_EXISTING_LOGIN_TOKEN
+@operatorToken = REPLACE_WITH_EXISTING_LOGIN_TOKEN
+@reservationId = REPLACE_WITH_CONFIRMED_RESERVATION_ID
+@transactionId = REPLACE_WITH_GENERATION_RESPONSE_TRANSACTION_ID
+@qrToken = REPLACE_WITH_GENERATION_RESPONSE_QR_TOKEN
+@stationId = REPLACE_WITH_ASSIGNED_STATION_ID
+@slotId = REPLACE_WITH_STATION_SLOT_ID
+
+### Prosumer owns the confirmed reservation. Repeating this returns the same active QR.
+POST {{baseUrl}}/api/transactions/qr
+Authorization: Bearer {{prosumerToken}}
+Content-Type: application/json
+
+{ "reservationId": "{{reservationId}}" }
+
+### Assigned Grid Operator dashboard
+GET {{baseUrl}}/api/operator/dashboard
+Authorization: Bearer {{operatorToken}}
+
+### Verify the exact scanned token (never send client reservation details)
+POST {{baseUrl}}/api/transactions/verify
+Authorization: Bearer {{operatorToken}}
+Content-Type: application/json
+
+{ "qrToken": "{{qrToken}}" }
+
+### Complete only after physical transfer; repeat MUST return 409
+POST {{baseUrl}}/api/transactions/{{transactionId}}/complete
+Authorization: Bearer {{operatorToken}}
+
+### Verify USED QR: MUST return 409
+POST {{baseUrl}}/api/transactions/verify
+Authorization: Bearer {{operatorToken}}
+Content-Type: application/json
+
+{ "qrToken": "{{qrToken}}" }
+
+### Availability preserves existing consumed/reserved units
+PATCH {{baseUrl}}/api/stations/{{stationId}}/availability
+Authorization: Bearer {{operatorToken}}
+Content-Type: application/json
+
+{ "slotId": "{{slotId}}", "totalCapacity": 10 }
+
+### Reuse existing logout; token is rejected after logout
+POST {{baseUrl}}/api/auth/logout
+Authorization: Bearer {{operatorToken}}

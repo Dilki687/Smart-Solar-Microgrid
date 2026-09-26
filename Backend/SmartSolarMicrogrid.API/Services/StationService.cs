@@ -14,11 +14,43 @@ public class StationService
         _mongoDbService = mongoDbService;
     }
 
+    /// Changes only slot capacity, preserving consumed/reserved units and station configuration.
+    public async Task<(bool Success, int StatusCode, object Response)> UpdateAvailabilityAsync(
+        string stationId, UpdateAvailabilityRequest request, string operatorId)
+    {
+        var station = await GetStationAsync(stationId);
+        if (station == null) return (false, 404, new { message = "Station not found." });
+        var user = await _mongoDbService.GetUsersCollection().Find(x => x.UserId == operatorId).FirstOrDefaultAsync();
+        if (user?.Role != UserRole.GridOperator || user.AccountStatus != AccountStatus.Active)
+            return (false, 403, new { message = "An active Grid Operator account is required." });
+        if (!string.Equals(station.Status, AccountStatus.Active, StringComparison.OrdinalIgnoreCase))
+            return (false, 409, new { message = "Station is inactive." });
+        var slots = _mongoDbService.GetBookingSlotsCollection();
+        var slot = await slots.Find(x => x.SlotId == request.SlotId && x.StationId == stationId && x.IsActive).FirstOrDefaultAsync();
+        if (slot == null) return (false, 404, new { message = "Active station slot not found." });
+        if (slot.EndTime <= DateTime.UtcNow) return (false, 409, new { message = "This slot has ended." });
+        var reserved = slot.TotalCapacity - slot.AvailableCapacity;
+        if (request.TotalCapacity <= 0 || request.TotalCapacity < reserved)
+            return (false, 400, new { message = "Total capacity must be positive and cannot be below reserved capacity." });
+        var saved = await slots.FindOneAndUpdateAsync(
+            x => x.SlotId == slot.SlotId && x.StationId == stationId && x.IsActive &&
+                 x.TotalCapacity == slot.TotalCapacity && x.AvailableCapacity == slot.AvailableCapacity &&
+                 x.UpdatedAt == slot.UpdatedAt,
+            Builders<EnergyBookingSlot>.Update.Set(x => x.TotalCapacity, request.TotalCapacity)
+                .Set(x => x.AvailableCapacity, request.TotalCapacity - reserved).Set(x => x.UpdatedAt, DateTime.UtcNow),
+            new FindOneAndUpdateOptions<EnergyBookingSlot> { ReturnDocument = ReturnDocument.After });
+        return saved == null
+            ? (false, 409, new { message = "Slot availability changed. Refresh and try again." })
+            : (true, 200, new { message = "Availability updated.", slot = saved });
+    }
+
     /// Creates a new solar station.
     public async Task<(bool Success, int StatusCode, object Response)>
         CreateStationAsync(CreateStationRequest request)
     {
         var stations = _mongoDbService.GetStationsCollection();
+        var operatorError = await ValidateOperatorAssignmentAsync(request.OperatorUserId);
+        if (operatorError != null) return operatorError.Value;
 
         var stationId = await GenerateStationIdAsync();
 
@@ -107,6 +139,9 @@ public async Task<(bool Success, int StatusCode, object Response)>
             });
     }
 
+    var operatorError = await ValidateOperatorAssignmentAsync(request.OperatorUserId);
+    if (operatorError != null) return operatorError.Value;
+
     var update = Builders<SolarStationInfo>.Update
         .Set(x => x.Name, request.Name.Trim())
         .Set(x => x.Address, request.Address.Trim())
@@ -145,6 +180,22 @@ public async Task<(bool Success, int StatusCode, object Response)>
             }
         });
 }
+
+    private async Task<(bool Success, int StatusCode, object Response)?>
+        ValidateOperatorAssignmentAsync(string operatorUserId)
+    {
+        var user = await _mongoDbService.GetUsersCollection()
+            .Find(x => x.UserId == operatorUserId.Trim())
+            .FirstOrDefaultAsync();
+
+        return user?.Role == UserRole.GridOperator &&
+            user.AccountStatus == AccountStatus.Active
+            ? null
+            : (false, 400, new
+            {
+                message = "Station must be assigned to an active Grid Operator user ID."
+            });
+    }
 
 
     /// Generates the next application-level station identifier.

@@ -127,5 +127,17 @@ public class MongoDbService
             });
 
         reservations.Indexes.CreateOne(reservationIdIndex);
+
+        // Only documents with a transaction participate; legacy reservations need no migration.
+        foreach (var field in new[] { "Transaction.TransactionId", "Transaction.QRToken" })
+        {
+            reservations.Indexes.CreateOne(new CreateIndexModel<EnergyReservation>(
+                Builders<EnergyReservation>.IndexKeys.Ascending(field),
+                new CreateIndexOptions<EnergyReservation>
+                {
+                    Unique = true,
+                    PartialFilterExpression = Builders<EnergyReservation>.Filter.Type(field, MongoDB.Bson.BsonType.String)
+                }));
+        }
     }
 }

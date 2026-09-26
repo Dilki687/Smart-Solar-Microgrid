@@ -25,8 +25,8 @@ class MainActivity : AppCompatActivity() {
 
         val target = when (user?.role) {
             "PROSUMER" -> ProsumerDashboardActivity::class.java
-            "BACKOFFICE",
-            "GRID_OPERATOR" -> BackofficeDashboardActivity::class.java
+            "BACKOFFICE" -> BackofficeDashboardActivity::class.java
+            "GRID_OPERATOR" -> com.smartsolar.microgrid.ui.operator.OperatorDashboardActivity::class.java
             else -> LoginActivity::class.java
         }
 

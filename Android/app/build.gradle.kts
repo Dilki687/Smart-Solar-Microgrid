@@ -15,6 +15,11 @@ android {
 
     defaultConfig {
         applicationId = "com.smartsolar.microgrid"
+        // Optional isolated device-test install; does not replace the team's app or session.
+        val operatorCheck = providers.gradleProperty("operatorCheck").orNull == "true"
+        if (operatorCheck) applicationIdSuffix = ".operatorcheck"
+        buildConfigField("String", "API_BASE_URL",
+            if (operatorCheck) "\"http://localhost:5160/\"" else "\"http://localhost:5147/\"")
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -42,6 +47,8 @@ android {
         }
     }
 
+    buildFeatures { buildConfig = true }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -53,6 +60,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.zxing.embedded)
 
     // Android core libraries
     implementation(libs.androidx.core.ktx)
@@ -151,12 +159,16 @@ val adbReverseApiPort by tasks.registering {
             standardOutput = devicesStdout
             isIgnoreExitValue = true
         }
-        val hasDevice = devicesStdout.toString()
+        val deviceSerials = devicesStdout.toString()
             .lineSequence()
             .drop(1)
-            .any { line -> line.trim().endsWith("\tdevice") }
+            .mapNotNull { line ->
+                val fields = line.trim().split(Regex("\\s+"))
+                fields.takeIf { it.size >= 2 && it[1] == "device" }?.first()
+            }
+            .toList()
 
-        if (!hasDevice) {
+        if (deviceSerials.isEmpty()) {
             logger.lifecycle(
                 "adb reverse: no attached device -- " +
                         "skipping tcp:$portForwardHostToDevice tunnel.",
@@ -164,27 +176,31 @@ val adbReverseApiPort by tasks.registering {
             return@doLast
         }
 
-        val result = exec {
-            commandLine(
-                adb.absolutePath,
-                "reverse",
-                "tcp:$portForwardHostToDevice",
-                "tcp:$portForwardHostToDevice",
-            )
-            isIgnoreExitValue = true
-        }
+        deviceSerials.forEach { serial ->
+            val result = exec {
+                commandLine(
+                    adb.absolutePath,
+                    "-s",
+                    serial,
+                    "reverse",
+                    "tcp:$portForwardHostToDevice",
+                    "tcp:$portForwardHostToDevice",
+                )
+                isIgnoreExitValue = true
+            }
 
-        if (result.exitValue == 0) {
-            logger.lifecycle(
-                "adb reverse: tcp:$portForwardHostToDevice " +
-                        "-> host tcp:$portForwardHostToDevice (ready).",
-            )
-        } else {
-            logger.warn(
-                "adb reverse: command returned exit " +
-                        "${result.exitValue} -- login may fail " +
-                        "until it succeeds.",
-            )
+            if (result.exitValue == 0) {
+                logger.lifecycle(
+                    "adb reverse: $serial tcp:$portForwardHostToDevice " +
+                            "-> host tcp:$portForwardHostToDevice (ready).",
+                )
+            } else {
+                logger.warn(
+                    "adb reverse: $serial command returned exit " +
+                            "${result.exitValue} -- login may fail " +
+                            "until it succeeds.",
+                )
+            }
         }
     }
 }

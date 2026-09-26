@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="operator_dashboard">Grid Operator Dashboard</string>
+    <string name="operator_greeting">Welcome, %1$s</string>
+    <string name="operator_today_count">Today’s jobs: %1$d</string>
+    <string name="operator_upcoming_count">Upcoming: %1$d</string>
+    <string name="operator_pending_count">Pending: %1$d</string>
+    <string name="operator_completed_count">Completed: %1$d</string>
+    <string name="operator_count_loading">—</string>
+    <string name="operator_scan">Scan Prosumer QR</string>
+    <string name="operator_availability">Station slot availability</string>
+    <string name="operator_refresh">Refresh</string>
+    <string name="operator_jobs">Today and upcoming jobs · Sri Lanka time</string>
+    <string name="operator_no_stations">No stations are assigned to your account. Contact Backoffice.</string>
+    <string name="operator_no_jobs">No operational bookings for today or upcoming days.</string>
+    <string name="operator_scan_cancelled">Scanning cancelled. Tap Scan Again to retry.</string>
+    <string name="operator_camera_denied">Camera permission is needed to scan. Tap Scan Again, or enable Camera in the app’s system settings if permission was permanently denied.</string>
+    <string name="operator_no_camera">This device has no available camera.</string>
+    <string name="operator_scan_prompt">Scan the QR displayed on the Prosumer’s reservation.</string>
+    <string name="operator_verifying">Verifying QR with the server…</string>
+    <string name="operator_invalid_qr">Invalid, expired, already used, or unauthorized QR. Please scan again.</string>
+    <string name="operator_complete">Complete Energy Transfer</string>
+    <string name="operator_confirm_physical">Confirm that the physical energy transfer has finished. Completion can only be recorded once.</string>
+    <string name="operator_confirm">Confirm transfer</string>
+    <string name="operator_qr_verified">QR Verified</string>
+    <string name="operator_transfer_completed">Energy Transfer COMPLETED</string>
+    <string name="operator_not_completed">Not completed</string>
+    <string name="operator_transfer_details">Prosumer: %1$s\nNIC: %2$s\nReservation: %3$s\nStation: %4$s\nSlot: %5$s\nBooking date / start: %6$s\nEnd: %7$s\nEnergy: %8$.2f kWh\nReservation status: %9$s\n\nTransaction: %10$s\nTransaction status: %11$s\nCompleted: %12$s</string>
+    <string name="operator_scan_again">Scan Again</string>
+    <string name="operator_back_dashboard">Back to Dashboard</string>
+    <string name="operator_capacity_detail">Available: %1$d · Reserved/consumed: %2$d</string>
+    <string name="operator_no_slots">No active upcoming slots at your assigned stations.</string>
+    <string name="operator_capacity_invalid">Enter a positive total, at least the reserved/consumed capacity.</string>
+    <string name="operator_availability_saved">Availability updated.</string>
+    <string name="operator_availability_help">Select a slot and adjust its total booking capacity. Existing reserved and consumed units are preserved. Capacity is a booking count, not kWh.</string>
+    <string name="operator_total_capacity">Total booking capacity</string>
+    <string name="operator_save_availability">Save availability</string>
+    <string name="operator_show_qr">Show Energy Transfer QR</string>
+    <string name="operator_present_qr">Reservation: %1$s\nPresent this QR to your station’s Grid Operator.\nExpires: %2$s\nRefresh after any reservation change.</string>
+    <string name="operator_qr_loading">Loading your reservation QR…</string>
+    <string name="operator_qr_description">Secure energy transfer QR code</string>
+    <string name="operator_qr_render_failed">Unable to display this QR. Please refresh.</string>
+</resources>

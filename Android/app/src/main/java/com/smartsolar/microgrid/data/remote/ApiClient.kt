@@ -25,7 +25,7 @@ object ApiClient {
      *
      * Works for a physical phone over USB and the AVD emulator.
      */
-    private const val BASE_URL = "http://localhost:5147/"
+    private val BASE_URL = com.smartsolar.microgrid.BuildConfig.API_BASE_URL
 
     private lateinit var retrofit: Retrofit
 
@@ -40,6 +40,9 @@ object ApiClient {
     private lateinit var stationApiInstance: StationApi
 
     private lateinit var userApiInstance: UserApi
+    private lateinit var operatorApiInstance: OperatorApi
+    val operatorApi: OperatorApi
+        get() = operatorApiInstance
 
     /**
      * Initializes the Retrofit client.
@@ -77,6 +80,7 @@ object ApiClient {
             .build()
 
         // Create API services.
+        operatorApiInstance = retrofit.create(OperatorApi::class.java)
         authApiInstance =
             retrofit.create(AuthApi::class.java)
 

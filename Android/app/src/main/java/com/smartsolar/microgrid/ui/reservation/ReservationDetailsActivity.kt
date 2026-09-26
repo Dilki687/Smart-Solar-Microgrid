@@ -123,6 +123,14 @@ class ReservationDetailsActivity : AppCompatActivity() {
     private fun renderActions() {
         val status = reservation.statusLabel()
         val hasChange = reservation.hasPendingChange
+        findViewById<View>(R.id.btnShowQr).apply {
+            visibility = if (viewerRole == "PROSUMER" && status == "CONFIRMED" && !hasChange) View.VISIBLE else View.GONE
+            setOnClickListener {
+                startActivity(Intent(this@ReservationDetailsActivity,
+                    com.smartsolar.microgrid.ui.prosumer.ReservationQrActivity::class.java)
+                    .putExtra("reservationId", reservation.reservationId))
+            }
+        }
 
         val btnApprove = findViewById<MaterialButton>(R.id.btnApprove)
         val btnReject = findViewById<MaterialButton>(R.id.btnReject)

@@ -83,6 +83,12 @@
         </LinearLayout>
 
         <!-- Action buttons -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnShowQr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="@string/operator_show_qr" />
         <LinearLayout
             android:id="@+id/actionsBar"
             android:layout_width="match_parent"

@@ -6,6 +6,11 @@ namespace SmartSolarMicrogrid.API.Models;
 /// Represents a reservation made by a prosumer for an energy booking slot.
 public class EnergyReservation
 {
+    // Never leak the bearer QR token through shared reservation/list endpoints.
+    [System.Text.Json.Serialization.JsonIgnore]
+    [BsonIgnoreIfNull]
+    public EnergyTransaction? Transaction { get; set; }
+
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
     public string Id { get; set; } = string.Empty;

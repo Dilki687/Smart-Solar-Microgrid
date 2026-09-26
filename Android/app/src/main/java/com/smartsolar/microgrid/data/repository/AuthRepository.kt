@@ -100,4 +100,17 @@ class AuthRepository(
     fun logout() {
         userDao.clearUser()
     }
+
+    /** Reuses the server's token blacklist and always clears the local session. */
+    suspend fun logoutFromServer() {
+        try {
+            ApiClient.authApi.logout()
+        } catch (cancelled: kotlinx.coroutines.CancellationException) {
+            throw cancelled
+        } catch (_: Exception) {
+            // Offline logout must still remove the device session.
+        } finally {
+            logout()
+        }
+    }
 }

@@ -381,9 +381,11 @@ public async Task<(bool Success, int StatusCode, object Response)>
         .Set(x => x.UpdatedAt, DateTime.UtcNow);
 
     // Update the reservation in MongoDB.
-    await reservations.UpdateOneAsync(
-        x => x.ReservationId == reservationId,
+    var write = await reservations.UpdateOneAsync(
+        x => x.ReservationId == reservationId && x.Status == BookingStatus.PENDING,
         update);
+    if (write.MatchedCount == 0)
+        return (false, 409, new { message = "Reservation changed. Refresh and try again." });
 
     // Return the updated reservation information.
     reservation.Status = BookingStatus.CONFIRMED;
@@ -460,9 +462,11 @@ public async Task<(bool Success, int StatusCode, object Response)>
         .Set(x => x.UpdatedAt, DateTime.UtcNow);
 
     // Update the reservation status.
-    await reservations.UpdateOneAsync(
-        x => x.ReservationId == reservationId,
+    var write = await reservations.UpdateOneAsync(
+        x => x.ReservationId == reservationId && x.Status == BookingStatus.PENDING,
         reservationUpdate);
+    if (write.MatchedCount == 0)
+        return (false, 409, new { message = "Reservation changed. Refresh and try again." });
 
     // Release one capacity unit from the associated slot.
     var slotUpdate = Builders<EnergyBookingSlot>.Update
@@ -676,9 +680,12 @@ public async Task<(bool Success, int StatusCode, object Response)>
         .Set(x => x.UpdatedAt, DateTime.UtcNow);
 
     // Save the pending change.
-    await reservations.UpdateOneAsync(
-        x => x.ReservationId == reservationId,
+    var write = await reservations.UpdateOneAsync(
+        x => x.ReservationId == reservationId && x.Status == BookingStatus.CONFIRMED &&
+             x.UpdatedAt == reservation.UpdatedAt,
         update);
+    if (write.MatchedCount == 0)
+        return (false, 409, new { message = "Reservation changed. Refresh and try again." });
 
     // Return a successful response.
     return (
@@ -724,7 +731,7 @@ public async Task<(bool Success, int StatusCode, object Response)>
     }
 
     // Check whether a pending change exists.
-    if (!reservation.HasPendingChange ||
+    if (reservation.Status != BookingStatus.CONFIRMED || !reservation.HasPendingChange ||
         string.IsNullOrWhiteSpace(reservation.PendingSlotId) ||
         reservation.PendingScheduledStartTime == null ||
         reservation.PendingScheduledEndTime == null ||
@@ -870,9 +877,11 @@ public async Task<(bool Success, int StatusCode, object Response)>
         .Set(x => x.UpdatedAt, DateTime.UtcNow);
 
     // Save the updated reservation.
-    await reservations.UpdateOneAsync(
-        x => x.ReservationId == reservationId,
+    var write = await reservations.UpdateOneAsync(
+        x => x.ReservationId == reservationId && x.Status == BookingStatus.CONFIRMED && x.HasPendingChange,
         update);
+    if (write.MatchedCount == 0)
+        return (false, 409, new { message = "Reservation changed. Refresh and try again." });
 
     // Retrieve the updated reservation.
     var updatedReservation = await reservations
@@ -973,9 +982,11 @@ public async Task<(bool Success, int StatusCode, object Response)>
         .Set(x => x.UpdatedAt, DateTime.UtcNow);
 
     // Save the rejection.
-    await reservations.UpdateOneAsync(
-        x => x.ReservationId == reservationId,
+    var write = await reservations.UpdateOneAsync(
+        x => x.ReservationId == reservationId && x.Status == BookingStatus.CONFIRMED && x.HasPendingChange,
         update);
+    if (write.MatchedCount == 0)
+        return (false, 409, new { message = "Reservation changed. Refresh and try again." });
 
     // Retrieve the updated reservation.
     var updatedReservation = await reservations
@@ -1061,9 +1072,12 @@ public async Task<(bool Success, int StatusCode, object Response)>
         .Set(x => x.CancellationReason, reason.Trim())
         .Set(x => x.UpdatedAt, DateTime.UtcNow);
 
-    await reservations.UpdateOneAsync(
-        x => x.ReservationId == reservationId,
+    var write = await reservations.UpdateOneAsync(
+        x => x.ReservationId == reservationId && x.Status == BookingStatus.CONFIRMED &&
+             x.SlotId == reservation.SlotId && x.UpdatedAt == reservation.UpdatedAt,
         reservationUpdate);
+    if (write.MatchedCount == 0)
+        return (false, 409, new { message = "Reservation changed. Refresh and try again." });
 
     // Restore one capacity unit to the original slot.
     var slotUpdate = Builders<EnergyBookingSlot>.Update
@@ -1203,7 +1217,8 @@ public async Task<(bool Success, int StatusCode, object Response)>
 
     // Apply the update only to the active slot.
     var updateResult = await slots.UpdateOneAsync(
-        x => x.SlotId == slotId && x.IsActive,
+        x => x.SlotId == slotId && x.IsActive && x.TotalCapacity == slot.TotalCapacity &&
+             x.AvailableCapacity == slot.AvailableCapacity && x.UpdatedAt == slot.UpdatedAt,
         update);
 
     // Confirm that the slot was updated.

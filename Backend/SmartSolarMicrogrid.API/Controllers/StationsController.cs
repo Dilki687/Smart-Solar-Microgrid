@@ -12,6 +12,16 @@ namespace SmartSolarMicrogrid.API.Controllers;
 [Authorize]
 public class StationsController : ControllerBase
 {
+    [HttpPatch("{stationId}/availability")]
+    [Authorize(Roles = UserRole.GridOperator)]
+    public async Task<IActionResult> UpdateAvailability(string stationId, UpdateAvailabilityRequest request)
+    {
+        var id = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrWhiteSpace(id)) return Unauthorized();
+        var result = await _stationService.UpdateAvailabilityAsync(stationId, request, id);
+        return StatusCode(result.StatusCode, result.Response);
+    }
+
     private readonly StationService _stationService;
 
     /// Initializes the stations controller.

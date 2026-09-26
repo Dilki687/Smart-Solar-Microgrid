@@ -15,6 +15,7 @@ class UserDao(context: Context) {
     /**
      * Saves the currently authenticated user and JWT token locally.
      */
+    @Synchronized
     fun saveUser(user: User, token: String) {
 
         // Open database for writing.
@@ -48,6 +49,7 @@ class UserDao(context: Context) {
     /**
      * Returns the locally stored user.
      */
+    @Synchronized
     fun getUser(): User? {
 
         val database = databaseHelper.readableDatabase
@@ -111,6 +113,9 @@ class UserDao(context: Context) {
     /**
      * Returns the locally stored JWT token.
      */
+    // Retrofit can read this shared DAO on several dispatcher threads at once.
+    // Serialize open/query/close so one request cannot close another request's cursor.
+    @Synchronized
     fun getToken(): String? {
 
         val database = databaseHelper.readableDatabase
@@ -145,6 +150,7 @@ class UserDao(context: Context) {
     /**
      * Removes the locally stored user session.
      */
+    @Synchronized
     fun clearUser() {
 
         val database = databaseHelper.writableDatabase

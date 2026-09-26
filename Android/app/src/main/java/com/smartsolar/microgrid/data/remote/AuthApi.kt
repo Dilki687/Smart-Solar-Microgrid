@@ -10,6 +10,8 @@ import retrofit2.http.POST
  * Retrofit API definition for authentication-related operations.
  */
 interface AuthApi {
+    @POST("api/auth/logout")
+    suspend fun logout(): Response<com.smartsolar.microgrid.model.ApiMessageResponse>
 
     /**
      * Authenticates a user through the central C# Web API.

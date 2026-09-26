@@ -40,6 +40,8 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<StationService>();
 // Register station Booking service
 builder.Services.AddScoped<BookingService>();
+builder.Services.AddScoped<TransactionService>();
+builder.Services.AddScoped<OperatorService>();
 
 // Register administrator bootstrap service for initial setup.
 builder.Services.AddScoped<AdminBootstrapService>();
@@ -145,6 +147,13 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 var app = builder.Build();
+
+// Keep unexpected operational errors out of client responses, including in development.
+app.UseExceptionHandler(handler => handler.Run(async context =>
+{
+    context.Response.StatusCode = 500;
+    await context.Response.WriteAsJsonAsync(new { message = "An unexpected server error occurred. Please try again." });
+}));
 
 // Create the initial Backoffice administrator account if required.
 using (var scope = app.Services.CreateScope())

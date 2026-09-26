@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:fillViewport="true"
+  android:background="@color/surface_background">
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp">
+    <TextView
+      android:id="@+id/tvAvailabilityTitle"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="12dp"
+      android:text="@string/operator_availability"
+      android:textColor="@color/text_primary"
+      android:textSize="16sp"
+      android:textStyle="bold" />
+    <TextView
+      android:id="@+id/tvAvailabilityHelp"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="12dp"
+      android:text="@string/operator_availability_help"
+      android:textColor="@color/text_primary"
+      android:textSize="16sp" />
+    <Spinner
+      android:id="@+id/spinnerOperatorSlot"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:minHeight="48dp" />
+    <TextView
+      android:id="@+id/tvAvailabilityMessage"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="12dp"
+      android:text=""
+      android:textColor="@color/text_primary"
+      android:textSize="16sp" />
+    <EditText
+      android:id="@+id/etOperatorCapacity"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:minHeight="48dp"
+      android:inputType="number"
+      android:hint="@string/operator_total_capacity"
+      android:importantForAutofill="no" />
+    <ProgressBar
+      android:id="@+id/availabilityProgress"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_horizontal"
+      android:visibility="gone" />
+    <com.google.android.material.button.MaterialButton
+      android:id="@+id/btnSaveAvailability"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/operator_save_availability" />
+    <com.google.android.material.button.MaterialButton
+      android:id="@+id/btnReloadAvailability"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/operator_refresh" />
+  </LinearLayout>
+</ScrollView>
