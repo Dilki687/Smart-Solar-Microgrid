@@ -29,10 +29,16 @@ public class OperatorService(MongoDbService mongo)
             .SortBy(x => x.StartTime).ToListAsync();
         return (true, 200, new
         {
-            operatorName = user.Name, timeZone = "Asia/Colombo", todayBookings = today.Count,
-            upcomingBookings = upcoming.Count, pendingBookings = active.Count(x => x.Status == BookingStatus.PENDING),
+            operatorName = user.Name,
+            timeZone = "Asia/Colombo",
+            todayBookings = today.Count,
+            upcomingBookings = upcoming.Count,
+            pendingBookings = active.Count(x => x.Status == BookingStatus.PENDING),
             completedBookings = reservations.Count(x => x.Status == BookingStatus.COMPLETED),
-            today, upcoming, stations = stations.Select(x => new { x.StationId, x.Name, x.Status }), slots
+            today,
+            upcoming,
+            stations = stations.Select(x => new { x.StationId, x.Name, x.Status }),
+            slots
         });
     }
 }

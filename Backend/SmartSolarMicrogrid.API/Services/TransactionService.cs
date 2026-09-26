@@ -31,12 +31,16 @@ public class TransactionService(MongoDbService mongo, StationService stations)
         var transaction = new EnergyTransaction
         {
             TransactionId = $"TRX-{Guid.NewGuid():N}".ToUpperInvariant(),
-            ReservationId = r.ReservationId, ProsumerNIC = user!.NIC,
-            StationId = r.StationId, SlotId = r.SlotId,
-            ScheduledStartTime = r.ScheduledStartTime, ScheduledEndTime = r.ScheduledEndTime,
+            ReservationId = r.ReservationId,
+            ProsumerNIC = user!.NIC,
+            StationId = r.StationId,
+            SlotId = r.SlotId,
+            ScheduledStartTime = r.ScheduledStartTime,
+            ScheduledEndTime = r.ScheduledEndTime,
             EnergyAmountKwh = r.EnergyAmountKwh,
             QRToken = "TRX:" + Convert.ToHexString(RandomNumberGenerator.GetBytes(32)),
-            GeneratedAt = DateTime.UtcNow, ExpiresAt = r.ScheduledEndTime
+            GeneratedAt = DateTime.UtcNow,
+            ExpiresAt = r.ScheduledEndTime
         };
         var filter = CurrentReservation(r) & Builders<EnergyReservation>.Filter.Eq(x => x.Transaction, existing);
         var saved = await Reservations.FindOneAndUpdateAsync(filter,
@@ -167,9 +171,13 @@ public class TransactionService(MongoDbService mongo, StationService stations)
 
     private static object QrResponse(EnergyTransaction t) => new
     {
-        transactionId = t.TransactionId, reservationId = t.ReservationId,
-        qrToken = t.QRToken, qrStatus = t.QRStatus, transactionStatus = t.TransactionStatus,
-        generatedAt = t.GeneratedAt, expiresAt = t.ExpiresAt
+        transactionId = t.TransactionId,
+        reservationId = t.ReservationId,
+        qrToken = t.QRToken,
+        qrStatus = t.QRStatus,
+        transactionStatus = t.TransactionStatus,
+        generatedAt = t.GeneratedAt,
+        expiresAt = t.ExpiresAt
     };
 
     private async Task<object> DetailsAsync(EnergyReservation r)
@@ -179,13 +187,21 @@ public class TransactionService(MongoDbService mongo, StationService stations)
         var prosumer = await mongo.GetUsersCollection().Find(x => x.UserId == r.ProsumerUserId).FirstOrDefaultAsync();
         return new
         {
-            transactionId = t.TransactionId, reservationId = r.ReservationId,
-            prosumerNIC = prosumer?.NIC ?? t.ProsumerNIC, prosumerName = prosumer?.Name,
-            stationId = r.StationId, stationName = station?.Name, slotId = r.SlotId,
-            scheduledStartTime = r.ScheduledStartTime, scheduledEndTime = r.ScheduledEndTime,
-            energyAmountKwh = r.EnergyAmountKwh, reservationStatus = r.Status.ToString(),
-            transactionStatus = t.TransactionStatus, qrStatus = t.QRStatus,
-            verifiedAt = t.VerifiedAt, completedAt = t.CompletedAt
+            transactionId = t.TransactionId,
+            reservationId = r.ReservationId,
+            prosumerNIC = prosumer?.NIC ?? t.ProsumerNIC,
+            prosumerName = prosumer?.Name,
+            stationId = r.StationId,
+            stationName = station?.Name,
+            slotId = r.SlotId,
+            scheduledStartTime = r.ScheduledStartTime,
+            scheduledEndTime = r.ScheduledEndTime,
+            energyAmountKwh = r.EnergyAmountKwh,
+            reservationStatus = r.Status.ToString(),
+            transactionStatus = t.TransactionStatus,
+            qrStatus = t.QRStatus,
+            verifiedAt = t.VerifiedAt,
+            completedAt = t.CompletedAt
         };
     }
 }
