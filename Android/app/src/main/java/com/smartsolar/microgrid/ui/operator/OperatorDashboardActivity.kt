@@ -33,7 +33,6 @@ class OperatorDashboardActivity : OperatorBaseActivity() {
             adapter = this@OperatorDashboardActivity.adapter
         }
         findViewById<View>(R.id.btnScan).setOnClickListener { startActivity(Intent(this, QrTransferActivity::class.java)) }
-        findViewById<View>(R.id.btnAvailability).setOnClickListener { startActivity(Intent(this, OperatorAvailabilityActivity::class.java)) }
         findViewById<View>(R.id.btnRefresh).setOnClickListener { load() }
         findViewById<View>(R.id.btnOperatorLogout).setOnClickListener { it.isEnabled = false; logout() }
     }

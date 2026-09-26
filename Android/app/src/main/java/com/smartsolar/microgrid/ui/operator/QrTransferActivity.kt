@@ -71,6 +71,7 @@ class QrTransferActivity : OperatorBaseActivity() {
         details = null
         token = null
         findViewById<View>(R.id.btnCompleteTransfer).visibility = View.GONE
+        findViewById<View>(R.id.btnScanAgain).visibility = View.VISIBLE
         findViewById<TextView>(R.id.tvTransferDetails).text = ""
         if (!packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) {
             message(getString(R.string.operator_no_camera)); return
@@ -128,6 +129,7 @@ class QrTransferActivity : OperatorBaseActivity() {
             d.completedAt?.let { ReservationFormat.format(it) } ?: getString(R.string.operator_not_completed),
         )
         findViewById<View>(R.id.btnCompleteTransfer).visibility = if (completed) View.GONE else View.VISIBLE
+        findViewById<View>(R.id.btnScanAgain).visibility = View.GONE
     }
 
     private fun setBusy(value: Boolean) {

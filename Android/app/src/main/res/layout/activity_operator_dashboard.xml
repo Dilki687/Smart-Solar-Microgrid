@@ -72,11 +72,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:text="@string/operator_scan" />
-  <com.google.android.material.button.MaterialButton
-    android:id="@+id/btnAvailability"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="@string/operator_availability" />
   <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
