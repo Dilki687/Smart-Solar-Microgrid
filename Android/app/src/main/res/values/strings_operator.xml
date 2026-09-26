@@ -11,6 +11,9 @@
     <string name="operator_availability">Station slot availability</string>
     <string name="operator_refresh">Refresh</string>
     <string name="operator_jobs">Today and upcoming jobs · Sri Lanka time</string>
+    <string name="operator_station_map_summary">%1$d active stations available to you</string>
+    <string name="operator_map_station_count">%1$d active stations · Tap a marker for details</string>
+    <string name="operator_map_load_failed">Unable to load stations.</string>
     <string name="operator_no_stations">No stations are assigned to your account. Contact Backoffice.</string>
     <string name="operator_no_jobs">No operational bookings for today or upcoming days.</string>
     <string name="operator_scan_cancelled">Scanning cancelled. Tap Scan Again to retry.</string>

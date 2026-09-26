@@ -61,6 +61,7 @@ android {
 
 dependencies {
     implementation(libs.zxing.embedded)
+    implementation(libs.osmdroid.android)
 
     // Android core libraries
     implementation(libs.androidx.core.ktx)

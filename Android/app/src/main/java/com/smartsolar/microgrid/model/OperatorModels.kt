@@ -1,6 +1,12 @@
 package com.smartsolar.microgrid.model
 
-data class OperatorStation(val stationId: String, val name: String, val status: String)
+data class OperatorStation(
+    val stationId: String,
+    val name: String,
+    val status: String,
+    val latitude: Double = 0.0,
+    val longitude: Double = 0.0,
+)
 data class OperatorSlot(
     val slotId: String, val stationId: String, val startTime: String, val endTime: String,
     val totalCapacity: Int, val availableCapacity: Int,

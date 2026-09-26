@@ -37,7 +37,10 @@ public class OperatorService(MongoDbService mongo)
             completedBookings = reservations.Count(x => x.Status == BookingStatus.COMPLETED),
             today,
             upcoming,
-            stations = stations.Select(x => new { x.StationId, x.Name, x.Status }),
+            stations = stations.Select(x => new
+            {
+                x.StationId, x.Name, x.Status, x.Latitude, x.Longitude
+            }),
             slots
         });
     }
