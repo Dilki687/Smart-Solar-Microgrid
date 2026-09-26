@@ -1,12 +1,15 @@
 package com.smartsolar.microgrid.data.remote
 
 import com.smartsolar.microgrid.model.ApiMessageResponse
+import com.smartsolar.microgrid.model.DeactivationRequestsResponse
 import com.smartsolar.microgrid.model.Prosumer
+import com.smartsolar.microgrid.model.RegisterProsumerRequest
 import com.smartsolar.microgrid.model.UpdateProsumerRequest
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.PATCH
+import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
 
@@ -44,5 +47,29 @@ interface ProsumerApi {
     @PATCH("api/prosumers/{nic}/deactivation-request")
     suspend fun requestDeactivation(
         @Path("nic") nic: String
+    ): Response<ApiMessageResponse>
+
+    // ---- Backoffice-only endpoints ----
+
+    /** POST /api/prosumers -- register a new prosumer. */
+    @POST("api/prosumers")
+    suspend fun register(
+        @Body request: RegisterProsumerRequest,
+    ): Response<ApiMessageResponse>
+
+    /** GET /api/prosumers/deactivation-requests */
+    @GET("api/prosumers/deactivation-requests")
+    suspend fun getDeactivationRequests(): Response<DeactivationRequestsResponse>
+
+    /** PATCH /api/prosumers/{nic}/deactivate */
+    @PATCH("api/prosumers/{nic}/deactivate")
+    suspend fun deactivateProsumer(
+        @Path("nic") nic: String,
+    ): Response<ApiMessageResponse>
+
+    /** PATCH /api/prosumers/{nic}/reactivate */
+    @PATCH("api/prosumers/{nic}/reactivate")
+    suspend fun reactivateProsumer(
+        @Path("nic") nic: String,
     ): Response<ApiMessageResponse>
 }

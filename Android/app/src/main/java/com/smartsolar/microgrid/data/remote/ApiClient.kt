@@ -13,19 +13,33 @@ import retrofit2.converter.gson.GsonConverterFactory
 object ApiClient {
 
     /*
-     * Android Emulator uses 10.0.2.2 to access the host computer.
+     * The C# API runs on http://localhost:5147 on the developer's
+     * PC. The Android app talks to it through an adb port-forward
+     * that maps the phone's local port 5147 to the developer PC's:
      *
-     * The C# API is running on:
+     *   adb reverse tcp:5147 tcp:5147
      *
-     * http://localhost:5147
+     * The Gradle install task in app/build.gradle.kts re-applies
+     * this mapping automatically every time you run installDebug,
+     * so you never have to run it by hand.
+     *
+     * Works for a physical phone over USB and the AVD emulator.
      */
-    private const val BASE_URL = "http://10.0.2.2:5147/"
+    private const val BASE_URL = "http://localhost:5147/"
 
     private lateinit var retrofit: Retrofit
 
     private lateinit var authApiInstance: AuthApi
 
     private lateinit var prosumerApiInstance: ProsumerApi
+
+    private lateinit var reservationApiInstance: ReservationApi
+
+    private lateinit var bookingSlotApiInstance: BookingSlotApi
+
+    private lateinit var stationApiInstance: StationApi
+
+    private lateinit var userApiInstance: UserApi
 
     /**
      * Initializes the Retrofit client.
@@ -68,6 +82,18 @@ object ApiClient {
 
         prosumerApiInstance =
             retrofit.create(ProsumerApi::class.java)
+
+        reservationApiInstance =
+            retrofit.create(ReservationApi::class.java)
+
+        bookingSlotApiInstance =
+            retrofit.create(BookingSlotApi::class.java)
+
+        stationApiInstance =
+            retrofit.create(StationApi::class.java)
+
+        userApiInstance =
+            retrofit.create(UserApi::class.java)
     }
 
     /**
@@ -81,4 +107,28 @@ object ApiClient {
      */
     val prosumerApi: ProsumerApi
         get() = prosumerApiInstance
+
+    /**
+     * Reservation API.
+     */
+    val reservationApi: ReservationApi
+        get() = reservationApiInstance
+
+    /**
+     * Booking slot API.
+     */
+    val bookingSlotApi: BookingSlotApi
+        get() = bookingSlotApiInstance
+
+    /**
+     * Station API.
+     */
+    val stationApi: StationApi
+        get() = stationApiInstance
+
+    /**
+     * Backoffice user management API.
+     */
+    val userApi: UserApi
+        get() = userApiInstance
 }

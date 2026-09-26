@@ -3,6 +3,7 @@ import {
   getNearbyStations,
 } from "../../services/stationService";
 import type { NearbyStation } from "../../types/station";
+import TruncatedId from "../../components/TruncatedId";
 
 const NearbyStationsPage = () => {
   const [latitude, setLatitude] = useState("6.9271");
@@ -205,7 +206,7 @@ const NearbyStationsPage = () => {
                       <strong>{station.name}</strong>
 
                       <div className="table-subtext">
-                        {station.nodeId}
+                        <TruncatedId value={station.nodeId} />
                       </div>
                     </td>
 

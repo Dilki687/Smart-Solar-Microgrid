@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/surface_background"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/reservation_details"
+            android:textColor="@color/text_primary"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvHeaderId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tvMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:visibility="gone"
+            android:background="@color/tone_rose_bg"
+            android:textColor="@color/tone_rose_fg" />
+
+        <!-- Detail card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="16dp"
+            android:padding="16dp"
+            android:background="@drawable/bg_card">
+
+            <include layout="@layout/inc_detail_row" android:id="@+id/rowStatus" />
+            <include layout="@layout/inc_detail_row" android:id="@+id/rowChange" />
+            <include layout="@layout/inc_detail_row" android:id="@+id/rowProsumer" />
+            <include layout="@layout/inc_detail_row" android:id="@+id/rowStation" />
+            <include layout="@layout/inc_detail_row" android:id="@+id/rowSlot" />
+            <include layout="@layout/inc_detail_row" android:id="@+id/rowStart" />
+            <include layout="@layout/inc_detail_row" android:id="@+id/rowEnd" />
+            <include layout="@layout/inc_detail_row" android:id="@+id/rowEnergy" />
+            <include layout="@layout/inc_detail_row" android:id="@+id/rowCancelReason" />
+        </LinearLayout>
+
+        <!-- Pending change card -->
+        <LinearLayout
+            android:id="@+id/pendingCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="16dp"
+            android:padding="16dp"
+            android:background="@drawable/bg_card"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pending_change_header"
+                android:textColor="@color/text_primary"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:layout_marginBottom="6dp" />
+
+            <include layout="@layout/inc_detail_row" android:id="@+id/rowPendingSlot" />
+            <include layout="@layout/inc_detail_row" android:id="@+id/rowPendingStart" />
+            <include layout="@layout/inc_detail_row" android:id="@+id/rowPendingEnd" />
+            <include layout="@layout/inc_detail_row" android:id="@+id/rowPendingEnergy" />
+        </LinearLayout>
+
+        <!-- Action buttons -->
+        <LinearLayout
+            android:id="@+id/actionsBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="18dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnApprove"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone"
+                android:text="@string/action_approve" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnReject"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone"
+                android:backgroundTint="@color/tone_rose_fg"
+                android:text="@string/action_reject" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnApproveChange"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone"
+                android:text="@string/action_approve_change" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRejectChange"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone"
+                android:backgroundTint="@color/tone_rose_fg"
+                android:text="@string/action_reject_change" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRequestUpdate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:text="@string/action_request_update" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCancel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone"
+                android:backgroundTint="@color/tone_rose_fg"
+                android:text="@string/action_cancel_reservation" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

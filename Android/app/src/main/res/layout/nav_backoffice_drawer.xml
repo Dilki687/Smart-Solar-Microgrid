@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_drawer"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="24dp"
+        android:paddingHorizontal="12dp"
+        android:paddingBottom="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textColor="@color/drawer_item_text"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:paddingHorizontal="8dp" />
+
+        <TextView
+            android:id="@+id/tvDrawerUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Backoffice"
+            android:textColor="@color/drawer_item_subtle"
+            android:textSize="13sp"
+            android:paddingHorizontal="8dp"
+            android:paddingTop="2dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginVertical="16dp"
+            android:background="#99B4DDEF" />
+
+        <include layout="@layout/inc_drawer_item" android:id="@+id/navDashboard" />
+        <include layout="@layout/inc_drawer_item" android:id="@+id/navUsers" />
+        <include layout="@layout/inc_drawer_item" android:id="@+id/navProsumers" />
+        <include layout="@layout/inc_drawer_item" android:id="@+id/navDeactivation" />
+        <include layout="@layout/inc_drawer_item" android:id="@+id/navSlots" />
+        <include layout="@layout/inc_drawer_item" android:id="@+id/navStations" />
+        <include layout="@layout/inc_drawer_item" android:id="@+id/navReservations" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="16dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="8dp"
+            android:background="#99B4DDEF" />
+
+        <include layout="@layout/inc_drawer_item" android:id="@+id/navLogout" />
+    </LinearLayout>
+</ScrollView>

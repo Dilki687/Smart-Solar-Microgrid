@@ -163,8 +163,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// Redirect HTTP requests to HTTPS when HTTPS is configured.
-app.UseHttpsRedirection();
+// Redirect HTTP requests to HTTPS in non-dev environments only.
+// Skipping this in Development lets the Android emulator/device and
+// the web frontend hit the plain http://…:5147 endpoint without
+// being redirected to an https port that isn't set up locally.
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 
 // Enable CORS for requests from the web frontend.
 app.UseCors("WebFrontend");

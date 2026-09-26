@@ -9,7 +9,7 @@ namespace SmartSolarMicrogrid.API.Controllers;
 /// Solar station management endpoints.
 [ApiController]
 [Route("api/stations")]
-[Authorize(Roles = UserRole.Backoffice + "," + UserRole.GridOperator)]
+[Authorize]
 public class StationsController : ControllerBase
 {
     private readonly StationService _stationService;
@@ -22,6 +22,7 @@ public class StationsController : ControllerBase
 
     /// Creates a new solar station.
     [HttpPost]
+    [Authorize(Roles = UserRole.Backoffice + "," + UserRole.GridOperator)]
     public async Task<IActionResult> CreateStation(
         [FromBody] CreateStationRequest request)
     {
@@ -68,6 +69,7 @@ public class StationsController : ControllerBase
 
 /// Updates an existing solar station.
 [HttpPut("{stationId}")]
+[Authorize(Roles = UserRole.Backoffice + "," + UserRole.GridOperator)]
 public async Task<IActionResult> UpdateStation(
     string stationId,
     [FromBody] UpdateStationRequest request)
@@ -88,6 +90,7 @@ public async Task<IActionResult> UpdateStation(
 }
 /// Deactivates a solar station if it has no active reservations.
 [HttpPatch("{stationId}/deactivate")]
+[Authorize(Roles = UserRole.Backoffice + "," + UserRole.GridOperator)]
 public async Task<IActionResult> DeactivateStation(
     string stationId)
 {

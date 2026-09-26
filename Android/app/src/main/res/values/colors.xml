@@ -2,4 +2,43 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Brand / neutrals -->
+    <color name="brand_navy">#0A1724</color>
+    <color name="text_primary">#0F172A</color>
+    <color name="text_secondary">#64748B</color>
+    <color name="text_muted">#94A3B8</color>
+    <color name="surface_card">#FFFFFF</color>
+    <color name="surface_background">#F5F7FA</color>
+    <color name="border_soft">#E2E8F0</color>
+
+    <!-- Badge / status tones -->
+    <color name="tone_amber_bg">#FEF3C7</color>
+    <color name="tone_amber_fg">#92400E</color>
+    <color name="tone_amber_border">#FDE68A</color>
+
+    <color name="tone_green_bg">#DCFCE7</color>
+    <color name="tone_green_fg">#166534</color>
+    <color name="tone_green_border">#BBF7D0</color>
+
+    <color name="tone_neutral_bg">#F1F5F9</color>
+    <color name="tone_neutral_fg">#475569</color>
+
+    <color name="tone_rose_bg">#FFF1F2</color>
+    <color name="tone_rose_fg">#BE123C</color>
+
+    <color name="tone_blue_bg">#EFF6FF</color>
+    <color name="tone_blue_fg">#1D4ED8</color>
+
+    <color name="tone_violet_bg">#F5F3FF</color>
+    <color name="tone_violet_fg">#6D28D9</color>
+
+    <color name="notification_red">#EF4444</color>
+
+    <!-- Drawer / navigation -->
+    <color name="drawer_bg">#DBEAFE</color>
+    <color name="drawer_item_active">#BFDBFE</color>
+    <color name="drawer_item_text">#0F172A</color>
+    <color name="drawer_item_subtle">#334155</color>
+    <color name="toolbar_bg">#FFFFFF</color>
 </resources>

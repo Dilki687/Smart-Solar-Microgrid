@@ -1863,3 +1863,444 @@ button {
   margin-top: 4px;
   font-weight: 400;
 }
+/* =========================================================
+   TRUNCATED ID (with hover popup showing the full value)
+   ========================================================= */
+
+.truncated-id {
+  position: relative;
+  display: inline-block;
+
+  max-width: 100%;
+
+  color: inherit;
+
+  border-bottom: 1px dotted #94a3b8;
+
+  cursor: help;
+
+  outline: none;
+}
+
+.truncated-id-tooltip {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 0;
+
+  z-index: 40;
+
+  padding: 6px 10px;
+
+  background: #0f172a;
+  color: #f8fafc;
+
+  border-radius: 6px;
+
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+  font-weight: 500;
+
+  white-space: nowrap;
+
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.25);
+
+  opacity: 0;
+  transform: translateY(4px);
+  pointer-events: none;
+
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
+}
+
+.truncated-id-tooltip::after {
+  content: "";
+
+  position: absolute;
+  top: 100%;
+  left: 14px;
+
+  border: 5px solid transparent;
+  border-top-color: #0f172a;
+}
+
+.truncated-id:hover .truncated-id-tooltip,
+.truncated-id:focus-visible .truncated-id-tooltip {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =========================================================
+   STATION MANAGEMENT — SPLIT LAYOUT
+   ========================================================= */
+
+.station-split-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.station-split-layout > .management-card {
+  margin: 0;
+}
+
+@media (max-width: 1100px) {
+  .station-split-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Compact station rows in the split view: name over id,
+   with a single View action button on the right. */
+.station-list-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  padding: 14px 18px;
+
+  border-bottom: 1px solid #eef2f7;
+}
+
+.station-list-row:last-child {
+  border-bottom: none;
+}
+
+.station-list-row-info {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.station-list-row-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f172a;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.station-list-row-meta {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+
+  font-size: 12px;
+  color: #64748b;
+}
+
+/* Modal body: read-only station details as label / value rows. */
+.station-detail-body {
+  padding: 20px 24px 4px;
+  display: grid;
+  gap: 14px;
+}
+
+.station-detail-row {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+}
+
+.station-detail-row .detail-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.station-detail-row .detail-value {
+  font-size: 14px;
+  color: #0f172a;
+  word-break: break-word;
+}
+
+.station-detail-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+
+  padding: 18px 24px 22px;
+  border-top: 1px solid #eef2f7;
+  margin-top: 8px;
+}
+
+@media (max-width: 520px) {
+  .station-detail-row {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+}
+
+/* =========================================================
+   MANAGEMENT CARD HEADER — filter select
+   Elevated, custom-chevron dropdown used for the filters that
+   sit in the top-right of a .management-card header.
+   ========================================================= */
+
+.management-card-header select {
+  /* Reset the native chrome. */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  min-width: 200px;
+
+  padding: 9px 38px 9px 14px;
+
+  background-color: #ffffff;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 20 20' fill='none' stroke='%236b7280' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 8 10 12 14 8'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px 12px;
+
+  color: #0f172a;
+  font-size: 13px;
+  font-weight: 600;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+
+  cursor: pointer;
+  outline: none;
+
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.15s ease;
+}
+
+.management-card-header select:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.07);
+}
+
+.management-card-header select:focus-visible {
+  border-color: #0a1724;
+  box-shadow: 0 0 0 3px rgba(10, 23, 36, 0.12);
+}
+
+.management-card-header select:disabled {
+  color: #94a3b8;
+  background-color: #f8fafc;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+@media (max-width: 640px) {
+  .management-card-header select {
+    min-width: 160px;
+    font-size: 12px;
+  }
+}
+
+/* =========================================================
+   DASHBOARD STATS — five-column variant + tinted tones
+   ========================================================= */
+
+.dashboard-stats--five {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+@media (max-width: 1250px) {
+  .dashboard-stats--five {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 820px) {
+  .dashboard-stats--five {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 500px) {
+  .dashboard-stats--five {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Tinted stat cards: pastel backgrounds with a matching subtle
+   border and matching icon tile so each metric has its own
+   identity without shouting. Numbers stay near-black for
+   maximum readability. */
+
+.dashboard-stat-card.tone-blue {
+  background: #eff6ff;
+  border-color: #dbeafe;
+}
+.dashboard-stat-card.tone-blue .dashboard-stat-icon {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.dashboard-stat-card.tone-amber {
+  background: #fffbeb;
+  border-color: #fde68a;
+}
+.dashboard-stat-card.tone-amber .dashboard-stat-icon {
+  background: #fde68a;
+  color: #b45309;
+}
+
+.dashboard-stat-card.tone-violet {
+  background: #f5f3ff;
+  border-color: #ddd6fe;
+}
+.dashboard-stat-card.tone-violet .dashboard-stat-icon {
+  background: #ddd6fe;
+  color: #6d28d9;
+}
+
+.dashboard-stat-card.tone-green {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+}
+.dashboard-stat-card.tone-green .dashboard-stat-icon {
+  background: #bbf7d0;
+  color: #166534;
+}
+
+.dashboard-stat-card.tone-rose {
+  background: #fff1f2;
+  border-color: #fecdd3;
+}
+.dashboard-stat-card.tone-rose .dashboard-stat-icon {
+  background: #fecdd3;
+  color: #be123c;
+}
+
+/* =========================================================
+   MANAGEMENT TABLE — equal-column variant
+   Forces every column to the same width so long IDs wrap
+   inside their cell instead of stretching one column and
+   leaving a huge gap before the next.
+   ========================================================= */
+
+.management-table--equal {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.management-table--equal th,
+.management-table--equal td {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   NOTIFICATION DOT
+   Small red indicator with an optional gentle pulse ring.
+   ========================================================= */
+
+.notification-dot {
+  display: inline-block;
+
+  width: 9px;
+  height: 9px;
+
+  background: #ef4444;
+  border-radius: 50%;
+
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.18);
+}
+
+/* Sits inline right after a heading or label. */
+.notification-dot--inline {
+  margin-left: 10px;
+  vertical-align: middle;
+  position: relative;
+  top: -1px;
+}
+
+/* Floats in the top-right corner of its positioned parent
+   (usually the Actions <td>, which itself is the right edge
+   of the row). */
+.notification-dot--corner {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+/* Add .notification-dot--pulse to draw a bit of attention. */
+.notification-dot--pulse {
+  position: relative;
+}
+
+.notification-dot--pulse::after {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  background: rgba(239, 68, 68, 0.35);
+  animation: notification-dot-pulse 1.8s ease-out infinite;
+  pointer-events: none;
+}
+
+@keyframes notification-dot-pulse {
+  0% {
+    transform: scale(0.55);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Any table cell that houses a corner dot must be positioned. */
+.management-table td.has-notification {
+  position: relative;
+}
+
+/* =========================================================
+   CHANGE DIFF — old value → new value
+   Used inside the reservation detail modal to show what a
+   pending change is actually changing.
+   ========================================================= */
+
+.change-diff {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.change-diff-old,
+.change-diff-new {
+  padding: 3px 9px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+}
+
+.change-diff-old {
+  background: #fef2f2;
+  color: #7f1d1d;
+  border-color: #fecaca;
+  text-decoration: line-through;
+  text-decoration-color: rgba(127, 29, 29, 0.45);
+}
+
+.change-diff-new {
+  background: #ecfdf5;
+  color: #065f46;
+  border-color: #a7f3d0;
+  font-weight: 600;
+}
+
+.change-diff-arrow {
+  color: #64748b;
+  font-size: 15px;
+  line-height: 1;
+  user-select: none;
+}

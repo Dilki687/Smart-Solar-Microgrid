@@ -1,3 +1,146 @@
 <resources>
     <string name="app_name">Smart Solar Microgrid</string>
+
+    <!-- Reservation list rows -->
+    <string name="reservation_schedule_range">%1$s\nto %2$s</string>
+    <string name="reservation_energy_kwh">%1$.2f kWh</string>
+    <string name="change_pending_label">⏳ Change request pending</string>
+    <string name="change_approved_label">✓ Change request approved</string>
+    <string name="change_rejected_label">✕ Change request rejected</string>
+
+    <!-- Slot rows -->
+    <string name="slot_end_time">to %1$s</string>
+    <string name="slot_available_of_total">%1$d / %2$d available</string>
+    <string name="slot_station_capacity">Total Capacity: %1$.1f kW · %2$s</string>
+
+    <!-- Common actions -->
+    <string name="action_refresh">Refresh</string>
+    <string name="action_close">Close</string>
+    <string name="action_book">Book Energy</string>
+    <string name="action_my_reservations">My Reservations</string>
+    <string name="action_all_reservations">All Reservations</string>
+    <string name="action_logout">Logout</string>
+
+    <!-- Prosumer dashboard -->
+    <string name="dashboard_title">Prosumer Dashboard</string>
+    <string name="dashboard_subtitle">Track your reservations and manage your bookings.</string>
+    <string name="stat_total">Total</string>
+    <string name="stat_pending">Pending</string>
+    <string name="stat_upcoming">Upcoming</string>
+    <string name="stat_completed">Completed</string>
+    <string name="stat_cancelled">Cancelled</string>
+    <string name="upcoming_reservations">Upcoming Reservations</string>
+    <string name="upcoming_empty">No upcoming confirmed reservations.</string>
+
+    <!-- Booking -->
+    <string name="booking_title">Book Energy</string>
+    <string name="booking_subtitle">Pick a slot and reserve energy.</string>
+    <string name="available_slots">Available Booking Slots</string>
+    <string name="no_slots">No booking slots are currently available.</string>
+    <string name="reservation_details">Reservation Details</string>
+    <string name="select_slot_hint">Select a slot from the list above.</string>
+    <string name="label_station">Station</string>
+    <string name="label_available">Available</string>
+    <string name="label_start">Start</string>
+    <string name="label_end">End</string>
+    <string name="label_energy">Energy (kWh)</string>
+    <string name="hint_energy">Enter kWh</string>
+    <string name="action_create_reservation">Create Reservation</string>
+
+    <!-- My reservations -->
+    <string name="my_reservations_title">My Reservations</string>
+    <string name="my_reservations_empty">You do not have any reservations yet.</string>
+
+    <!-- Operator screens -->
+    <string name="operator_title">Reservation Management</string>
+    <string name="operator_subtitle">Review reservations and change requests.</string>
+    <string name="filter_all">All Statuses</string>
+
+    <!-- Detail screen -->
+    <string name="label_reservation_id">Reservation ID</string>
+    <string name="label_status">Status</string>
+    <string name="label_change_request">Change Request</string>
+    <string name="label_prosumer">Prosumer</string>
+    <string name="label_slot">Slot</string>
+    <string name="label_scheduled_start">Scheduled Start</string>
+    <string name="label_scheduled_end">Scheduled End</string>
+    <string name="label_cancellation_reason">Cancellation Reason</string>
+    <string name="pending_change_header">Pending Change</string>
+    <string name="pending_slot">Pending Slot</string>
+    <string name="pending_start">Pending Start</string>
+    <string name="pending_end">Pending End</string>
+    <string name="pending_energy">Pending Energy (kWh)</string>
+
+    <string name="action_approve">Approve</string>
+    <string name="action_reject">Reject</string>
+    <string name="action_approve_change">Approve Change</string>
+    <string name="action_reject_change">Reject Change</string>
+    <string name="action_request_update">Request Update</string>
+    <string name="action_cancel_reservation">Cancel Reservation</string>
+
+    <!-- Request update -->
+    <string name="update_title">Request Update</string>
+    <string name="update_subtitle">Pick a new slot and adjust the energy amount.</string>
+    <string name="update_submit">Submit Update Request</string>
+
+    <!-- Drawer -->
+    <string name="drawer_open">Open navigation</string>
+    <string name="drawer_close">Close navigation</string>
+    <string name="nav_dashboard">Dashboard</string>
+    <string name="nav_booking">Booking</string>
+    <string name="nav_my_reservations">My Reservations</string>
+    <string name="nav_profile">Profile</string>
+    <string name="nav_logout">Logout</string>
+
+    <!-- Greetings -->
+    <string name="greeting_morning">Good morning, %1$s</string>
+    <string name="greeting_afternoon">Good afternoon, %1$s</string>
+    <string name="greeting_evening">Good evening, %1$s</string>
+
+    <!-- Backoffice drawer + screens -->
+    <string name="nav_users">Users</string>
+    <string name="nav_prosumers_manage">Prosumers</string>
+    <string name="nav_deactivation">Deactivation Requests</string>
+    <string name="nav_slots">Booking Slots</string>
+    <string name="nav_stations">Stations</string>
+    <string name="nav_reservations">Reservations</string>
+
+    <string name="backoffice_title">Backoffice Dashboard</string>
+    <string name="backoffice_subtitle">Manage users, Prosumer accounts and account deactivation requests.</string>
+
+    <string name="quick_actions">Quick Actions</string>
+    <string name="qa_manage_users">Manage Users</string>
+    <string name="qa_manage_users_sub">Create, update and deactivate Backoffice and Grid Operator accounts.</string>
+    <string name="qa_manage_prosumers">Manage Prosumers</string>
+    <string name="qa_manage_prosumers_sub">View Prosumer account information and account status.</string>
+    <string name="qa_deactivation">Deactivation Requests</string>
+    <string name="qa_deactivation_sub">Review Prosumer deactivation requests and approve them.</string>
+    <string name="qa_stations">Stations</string>
+    <string name="qa_stations_sub">Create, update and deactivate solar microgrid stations.</string>
+    <string name="qa_slots">Booking Slots</string>
+    <string name="qa_slots_sub">Manage energy booking slot availability.</string>
+    <string name="qa_reservations">Reservations</string>
+    <string name="qa_reservations_sub">Approve, reject and review reservation change requests.</string>
+
+    <!-- Backoffice dashboard stat labels + preview -->
+    <string name="stat_pending_reservations">Pending Reservations</string>
+    <string name="stat_deactivation_requests">Deactivation Requests</string>
+    <string name="stat_active_stations">Active Stations</string>
+    <string name="stat_active_slots">Active Slots</string>
+    <string name="stat_system_users">System Users</string>
+    <string name="pending_reservations_header">Pending Reservations</string>
+    <string name="pending_reservations_empty">No reservations waiting for approval.</string>
+
+    <string name="empty_users">No matching users.</string>
+    <string name="empty_slots">No booking slots yet.</string>
+    <string name="empty_stations">No stations yet.</string>
+    <string name="empty_deactivation">No pending deactivation requests.</string>
+
+    <string name="action_add">Add</string>
+    <string name="action_create">Create</string>
+    <string name="action_save">Save</string>
+    <string name="action_delete">Deactivate</string>
+    <string name="action_reactivate">Reactivate</string>
+    <string name="action_lookup">Look up</string>
+    <string name="action_approve_deactivation">Approve Deactivation</string>
 </resources>

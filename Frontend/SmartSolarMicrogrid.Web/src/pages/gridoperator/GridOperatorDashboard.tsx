@@ -5,6 +5,7 @@ import { getBookingSlots } from "../../services/bookingSlotService";
 import type { Station } from "../../types/station";
 import type { BookingSlot } from "../../types/bookingSlot";
 import StationMap from "../../components/StationMap";
+import TruncatedId from "../../components/TruncatedId";
 
 const GridOperatorDashboard = () => {
   const navigate = useNavigate();
@@ -187,7 +188,7 @@ const GridOperatorDashboard = () => {
                       <strong>{station.name}</strong>
 
                       <div className="table-subtext">
-                        {station.stationId}
+                        <TruncatedId value={station.stationId} />
                       </div>
                     </td>
 

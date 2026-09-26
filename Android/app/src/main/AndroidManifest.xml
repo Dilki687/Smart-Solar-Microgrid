@@ -25,6 +25,54 @@
             android:name=".ui.prosumer.ProsumerProfileActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".ui.prosumer.ProsumerDashboardActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.prosumer.BookingActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.prosumer.MyReservationsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.prosumer.RequestUpdateActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.reservation.ReservationDetailsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.operator.OperatorReservationsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.backoffice.BackofficeDashboardActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.backoffice.UserManagementActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.backoffice.ProsumerLookupActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.backoffice.DeactivationRequestsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.backoffice.StationManagementActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.backoffice.BookingSlotManagementActivity"
+            android:exported="false" />
+
         <!-- Authentication screen. -->
         <activity
             android:name=".ui.auth.LoginActivity"

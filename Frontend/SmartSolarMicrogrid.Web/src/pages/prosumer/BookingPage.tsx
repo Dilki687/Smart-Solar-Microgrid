@@ -121,133 +121,147 @@ const BookingPage = () => {
         </div>
       )}
 
-      <div className="management-card">
-        <div className="management-card-header">
-          <h2>Available Booking Slots</h2>
+      <div className="station-split-layout">
+        {/* LEFT — Available slots */}
+        <div className="management-card">
+          <div className="management-card-header">
+            <h2>Available Booking Slots</h2>
+          </div>
+
+          {loading ? (
+            <div className="empty-state">
+              Loading available slots...
+            </div>
+          ) : slots.length === 0 ? (
+            <div className="empty-state">
+              No booking slots are currently available.
+            </div>
+          ) : (
+            <div className="booking-grid">
+              {slots.map((slot) => (
+                <button
+                  type="button"
+                  key={slot.slotId}
+                  className={`booking-slot-card ${
+                    selectedSlotId === slot.slotId
+                      ? "selected"
+                      : ""
+                  }`}
+                  onClick={() =>
+                    setSelectedSlotId(slot.slotId)
+                  }
+                >
+                  <div className="booking-slot-title">
+                    {slot.stationId}
+                  </div>
+
+                  <div className="booking-slot-time">
+                    {formatDateTime(slot.startTime)}
+                  </div>
+
+                  <div className="booking-slot-time">
+                    to {formatDateTime(slot.endTime)}
+                  </div>
+
+                  <div className="booking-slot-capacity">
+                    {slot.availableCapacity} available
+                  </div>
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
-        {loading ? (
-          <div className="empty-state">
-            Loading available slots...
-          </div>
-        ) : slots.length === 0 ? (
-          <div className="empty-state">
-            No booking slots are currently available.
-          </div>
-        ) : (
-          <div className="booking-grid">
-            {slots.map((slot) => (
-              <button
-                type="button"
-                key={slot.slotId}
-                className={`booking-slot-card ${
-                  selectedSlotId === slot.slotId
-                    ? "selected"
-                    : ""
-                }`}
-                onClick={() =>
-                  setSelectedSlotId(slot.slotId)
-                }
-              >
-                <div className="booking-slot-title">
-                  {slot.stationId}
-                </div>
-
-                <div className="booking-slot-time">
-                  {formatDateTime(slot.startTime)}
-                </div>
-
-                <div className="booking-slot-time">
-                  to {formatDateTime(slot.endTime)}
-                </div>
-
-                <div className="booking-slot-capacity">
-                  {slot.availableCapacity} available
-                </div>
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {selectedSlot && (
+        {/* RIGHT — Reservation details for the selected slot */}
         <div className="management-card">
           <div className="management-card-header">
             <h2>Reservation Details</h2>
           </div>
 
-          <div className="station-form">
-            <div className="form-group">
-              <label>Station</label>
-              <input
-                value={selectedSlot.stationId}
-                disabled
-              />
-            </div>
+          {selectedSlot ? (
+            <div className="station-form">
+              <div className="form-group">
+                <label>Station</label>
+                <input
+                  value={selectedSlot.stationId}
+                  disabled
+                />
+              </div>
 
-            <div className="form-group">
-              <label>Available Capacity</label>
-              <input
-                value={`${selectedSlot.availableCapacity}`}
-                disabled
-              />
-            </div>
+              <div className="form-group">
+                <label>Available Capacity</label>
+                <input
+                  value={`${selectedSlot.availableCapacity}`}
+                  disabled
+                />
+              </div>
 
-            <div className="form-group">
-              <label>Start Time</label>
-              <input
-                value={formatDateTime(
-                  selectedSlot.startTime,
-                )}
-                disabled
-              />
-            </div>
+              <div className="form-group">
+                <label>Start Time</label>
+                <input
+                  value={formatDateTime(
+                    selectedSlot.startTime,
+                  )}
+                  disabled
+                />
+              </div>
 
-            <div className="form-group">
-              <label>End Time</label>
-              <input
-                value={formatDateTime(
-                  selectedSlot.endTime,
-                )}
-                disabled
-              />
-            </div>
+              <div className="form-group">
+                <label>End Time</label>
+                <input
+                  value={formatDateTime(
+                    selectedSlot.endTime,
+                  )}
+                  disabled
+                />
+              </div>
 
-            <div className="form-group">
-              <label htmlFor="energyAmount">
-                Energy Amount (kWh)
-              </label>
+              <div className="form-group full-width">
+                <label htmlFor="energyAmount">
+                  Energy Amount (kWh)
+                </label>
 
-              <input
-                id="energyAmount"
-                type="number"
-                min="0.1"
-                step="0.1"
-                max={selectedSlot.availableCapacity}
-                value={energyAmount}
-                onChange={(event) =>
-                  setEnergyAmount(event.target.value)
-                }
-                placeholder={`Maximum ${selectedSlot.availableCapacity}`}
-                disabled={saving}
-              />
-            </div>
+                <input
+                  id="energyAmount"
+                  type="number"
+                  min="0.1"
+                  step="0.1"
+                  max={selectedSlot.availableCapacity}
+                  value={energyAmount}
+                  onChange={(event) =>
+                    setEnergyAmount(event.target.value)
+                  }
+                  placeholder={`Maximum ${selectedSlot.availableCapacity}`}
+                  disabled={saving}
+                />
+              </div>
 
-            <div className="form-actions">
-              <button
-                type="button"
-                className="primary-button"
-                onClick={handleBooking}
-                disabled={saving}
-              >
-                {saving
-                  ? "Booking..."
-                  : "Create Reservation"}
-              </button>
+              <div className="form-group full-width">
+                <div className="form-actions">
+                  <button
+                    type="button"
+                    className="primary-button"
+                    onClick={handleBooking}
+                    disabled={saving}
+                  >
+                    {saving
+                      ? "Booking..."
+                      : "Create Reservation"}
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="empty-state">
+              <h3>Select a slot to continue</h3>
+              <p>
+                Pick a booking slot from the left to see its
+                details and reserve energy.
+              </p>
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 };
