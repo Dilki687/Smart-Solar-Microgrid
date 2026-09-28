@@ -34,16 +34,8 @@ const LoginPage = () => {
 
     try {
       // Authenticate the user through the backend API.
-      await login(identifier, password);
-
-      // Read the authenticated user from local storage.
-      const storedUser = localStorage.getItem("smartSolarUser");
-
-      if (!storedUser) {
-        throw new Error("User information was not returned.");
-      }
-
-      const authenticatedUser = JSON.parse(storedUser);
+      // The authenticated user is returned directly from AuthContext.
+      const authenticatedUser = await login(identifier, password);
 
       // Redirect the user according to their role.
       switch (authenticatedUser.role) {

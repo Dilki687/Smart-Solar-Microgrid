@@ -69,6 +69,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
     setToken(response.token);
     setUser(response.user);
+
+    return response.user;
   };
 
   const logout = async () => {
