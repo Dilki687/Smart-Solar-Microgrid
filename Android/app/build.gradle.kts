@@ -18,8 +18,11 @@ android {
         // Optional isolated device-test install; does not replace the team's app or session.
         val operatorCheck = providers.gradleProperty("operatorCheck").orNull == "true"
         if (operatorCheck) applicationIdSuffix = ".operatorcheck"
-        buildConfigField("String", "API_BASE_URL",
-            if (operatorCheck) "\"http://localhost:5160/\"" else "\"http://localhost:5147/\"")
+        buildConfigField(
+            "String",
+            "API_BASE_URL",
+            if (operatorCheck) "\"http://127.0.0.1:5160/\"" else "\"http://127.0.0.1:5147/\""
+        )
         minSdk = 24
         targetSdk = 34
         versionCode = 1
