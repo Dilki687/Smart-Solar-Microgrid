@@ -2904,3 +2904,302 @@ button {
     align-items: flex-start;
   }
 }
+/* =========================================================
+   HOME / LANDING PAGE
+   ========================================================= */
+
+.home-page {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(240, 194, 31, 0.18),
+      transparent 32%
+    ),
+    linear-gradient(
+      135deg,
+      #07131f 0%,
+      #0a1724 45%,
+      #122b3d 100%
+    );
+
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.home-page::before {
+  content: "";
+  position: absolute;
+
+  width: 520px;
+  height: 520px;
+
+  border-radius: 50%;
+
+  border: 1px solid rgba(240, 194, 31, 0.12);
+
+  top: -220px;
+  right: -160px;
+}
+
+.home-page::after {
+  content: "";
+  position: absolute;
+
+  width: 420px;
+  height: 420px;
+
+  border-radius: 50%;
+
+  border: 1px solid rgba(255, 255, 255, 0.06);
+
+  bottom: -220px;
+  left: -150px;
+}
+
+.home-overlay {
+  width: 100%;
+  min-height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 40px 24px;
+
+  position: relative;
+  z-index: 1;
+}
+
+.home-content {
+  width: 100%;
+  max-width: 850px;
+
+  text-align: center;
+}
+
+.home-icon {
+  width: 72px;
+  height: 72px;
+
+  margin: 0 auto 22px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 20px;
+
+  background: #f0c21f;
+  color: #0a1724;
+
+  font-size: 38px;
+
+  box-shadow:
+    0 12px 35px rgba(240, 194, 31, 0.22);
+}
+
+.home-system-label {
+  margin: 0 0 14px;
+
+  color: #f0c21f;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  letter-spacing: 2px;
+}
+
+.home-content h1 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: clamp(38px, 6vw, 64px);
+  line-height: 1.08;
+
+  font-weight: 800;
+
+  letter-spacing: -1.5px;
+}
+
+.home-description {
+  max-width: 650px;
+
+  margin: 24px auto 0;
+
+  color: #b8c5cf;
+
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.home-actions {
+  display: flex;
+
+  justify-content: center;
+
+  gap: 14px;
+
+  margin-top: 34px;
+}
+
+.home-button {
+  min-width: 170px;
+
+  padding: 14px 26px;
+
+  border-radius: 9px;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  text-decoration: none;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.home-button:hover {
+  transform: translateY(-2px);
+}
+
+.home-button-primary {
+  background: #f0c21f;
+  color: #0a1724;
+
+  box-shadow:
+    0 8px 24px rgba(240, 194, 31, 0.2);
+}
+
+.home-button-primary:hover {
+  background: #f5cc3b;
+}
+
+.home-button-secondary {
+  background: transparent;
+
+  color: #ffffff;
+
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.home-button-secondary:hover {
+  background: rgba(255, 255, 255, 0.08);
+
+  border-color: rgba(255, 255, 255, 0.55);
+}
+
+.home-features {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 14px;
+
+  max-width: 750px;
+
+  margin: 60px auto 0;
+}
+
+.home-feature {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 16px;
+
+  text-align: left;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  border-radius: 12px;
+
+  background: rgba(255, 255, 255, 0.04);
+
+  backdrop-filter: blur(8px);
+}
+
+.home-feature > span {
+  width: 38px;
+  height: 38px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 9px;
+
+  background: rgba(240, 194, 31, 0.15);
+
+  color: #f0c21f;
+
+  font-size: 18px;
+}
+
+.home-feature div {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+.home-feature strong {
+  color: #ffffff;
+
+  font-size: 12px;
+}
+
+.home-feature small {
+  color: #91a1ad;
+
+  font-size: 10px;
+
+  line-height: 1.4;
+}
+
+@media (max-width: 700px) {
+  .home-content h1 {
+    font-size: 40px;
+  }
+
+  .home-description {
+    font-size: 14px;
+  }
+
+  .home-actions {
+    flex-direction: column;
+
+    align-items: stretch;
+
+    max-width: 300px;
+
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .home-button {
+    width: 100%;
+  }
+
+  .home-features {
+    grid-template-columns: 1fr;
+
+    max-width: 350px;
+
+    margin-top: 40px;
+  }
+}

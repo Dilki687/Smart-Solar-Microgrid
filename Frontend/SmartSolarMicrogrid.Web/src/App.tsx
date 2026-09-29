@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from "react-router";
 import LoginPage from "./pages/auth/LoginPage";
+import HomePage from "./pages/HomePage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import RoleRoute from "./components/RoleRoute";
 import DashboardLayout from "./layouts/DashboardLayout";
@@ -88,8 +89,8 @@ function App() {
 
       <Route path="/register/prosumer" element={<ProsumerRegistrationPage />} />
 
-      {/* Default route */}
-      <Route path="/" element={<Navigate to="/login" replace />} />
+     {/* Home / Landing Page */}
+<Route path="/" element={<HomePage />} />
 
       {/* Unknown routes */}
       <Route path="*" element={<Navigate to="/" replace />} />
