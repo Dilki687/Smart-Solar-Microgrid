@@ -417,6 +417,7 @@ const UserManagementPage = () => {
             <table className="data-table">
               <thead>
                 <tr>
+                  <th>User ID</th>
                   <th>NIC</th>
                   <th>Name</th>
                   <th>Email</th>
@@ -430,6 +431,9 @@ const UserManagementPage = () => {
               <tbody>
                 {filteredUsers.map((user) => (
                   <tr key={user.userId}>
+                    <td>
+                      <strong>{user.userId}</strong>
+                    </td>
                     <td>{user.nic}</td>
 
                     <td>
