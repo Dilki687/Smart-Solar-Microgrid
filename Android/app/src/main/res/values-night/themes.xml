@@ -1,7 +1,16 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.SmartSolarMicrogrid" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+    <style name="Base.Theme.SmartSolarMicrogrid" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/brand_navy</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryContainer">@color/brand_navy</item>
+        <item name="colorOnPrimaryContainer">@color/white</item>
+        <item name="colorSecondary">@color/brand_yellow</item>
+        <item name="colorOnSecondary">@color/brand_navy</item>
+        <item name="colorSecondaryContainer">@color/brand_yellow</item>
+        <item name="colorOnSecondaryContainer">@color/brand_navy</item>
+        <item name="colorSurface">@color/surface_background</item>
+        <item name="android:colorBackground">@color/surface_background</item>
+        <item name="android:windowBackground">@color/surface_background</item>
     </style>
 </resources>

@@ -31,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginVertical="16dp"
-        android:background="#99B4DDEF" />
+        android:background="@color/drawer_divider" />
 
     <!-- Nav items -->
     <include layout="@layout/inc_drawer_item" android:id="@+id/navDashboard" />
@@ -48,7 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginBottom="8dp"
-        android:background="#99B4DDEF" />
+        android:background="@color/drawer_divider" />
 
     <!-- Logout pinned to the bottom -->
     <include layout="@layout/inc_drawer_item" android:id="@+id/navLogout" />

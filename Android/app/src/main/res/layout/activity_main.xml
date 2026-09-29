@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:text="Welcome"
-            android:textColor="#0A1724"
+            android:textColor="@color/brand_navy"
             android:textSize="26sp"
             android:textStyle="bold" />
 
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:text="Role"
-            android:textColor="#334155"
+            android:textColor="@color/text_secondary"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -38,7 +38,7 @@
             android:layout_marginTop="24dp"
             android:gravity="center"
             android:text="User details"
-            android:textColor="#64748B"
+            android:textColor="@color/text_secondary"
             android:textSize="15sp" />
 
         <com.google.android.material.button.MaterialButton

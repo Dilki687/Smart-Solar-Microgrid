@@ -3,14 +3,15 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <!-- Brand / neutrals -->
+    <!-- Brand palette -->
     <color name="brand_navy">#0A1724</color>
-    <color name="text_primary">#0F172A</color>
-    <color name="text_secondary">#64748B</color>
+    <color name="brand_yellow">#F0C21F</color>
+    <color name="text_primary">#0A1724</color>
+    <color name="text_secondary">#0A1724</color>
     <color name="text_muted">#94A3B8</color>
     <color name="surface_card">#FFFFFF</color>
-    <color name="surface_background">#F5F7FA</color>
-    <color name="border_soft">#E2E8F0</color>
+    <color name="surface_background">#FFFFFF</color>
+    <color name="border_soft">#330A1724</color>
 
     <!-- Badge / status tones -->
     <color name="tone_amber_bg">#FEF3C7</color>
@@ -36,9 +37,10 @@
     <color name="notification_red">#EF4444</color>
 
     <!-- Drawer / navigation -->
-    <color name="drawer_bg">#DBEAFE</color>
-    <color name="drawer_item_active">#BFDBFE</color>
-    <color name="drawer_item_text">#0F172A</color>
-    <color name="drawer_item_subtle">#334155</color>
-    <color name="toolbar_bg">#FFFFFF</color>
+    <color name="drawer_bg">#0A1724</color>
+    <color name="drawer_item_active">#F0C21F</color>
+    <color name="drawer_item_text">#FFFFFF</color>
+    <color name="drawer_item_subtle">#FFFFFFFF</color>
+    <color name="drawer_divider">#33FFFFFF</color>
+    <color name="toolbar_bg">#0A1724</color>
 </resources>

@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="70dp"
             android:text="Smart Solar Microgrid"
-            android:textColor="#0A1724"
+            android:textColor="@color/brand_navy"
             android:textSize="26sp"
             android:textStyle="bold" />
 
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Sign in to your account"
-            android:textColor="#64748B"
+            android:textColor="@color/text_secondary"
             android:textSize="15sp" />
 
         <!-- Identifier -->
