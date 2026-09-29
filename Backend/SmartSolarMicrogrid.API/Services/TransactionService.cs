@@ -119,7 +119,8 @@ public class TransactionService(MongoDbService mongo, StationService stations)
     private async Task<(bool Success, int StatusCode, object Response)?> ValidateAsync(EnergyReservation r, string? operatorId = null)
     {
         var station = await stations.GetStationAsync(r.StationId);
-        if (station == null) return Error(404, "Station not found.");
+        if (station == null)
+            return Error(404, $"Station '{r.StationId}' was not found for reservation '{r.ReservationId}'. Restore this station or create a new reservation.");
         if (operatorId != null)
         {
             var op = await mongo.GetUsersCollection().Find(x => x.UserId == operatorId).FirstOrDefaultAsync();

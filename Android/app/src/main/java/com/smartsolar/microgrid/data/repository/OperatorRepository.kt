@@ -3,6 +3,7 @@ package com.smartsolar.microgrid.data.repository
 import com.smartsolar.microgrid.data.remote.ApiClient
 import com.smartsolar.microgrid.model.*
 import kotlinx.coroutines.CancellationException
+import org.json.JSONObject
 import retrofit2.Response
 
 class OperatorApiException(val status: Int, message: String) : Exception(message)
@@ -19,7 +20,7 @@ class OperatorRepository {
         val response = block()
         val body = response.body()
         if (response.isSuccessful && body != null) Result.success(body)
-        else Result.failure(OperatorApiException(response.code(), messageFor(response.code())))
+        else Result.failure(OperatorApiException(response.code(), messageFor(response)))
     } catch (cancelled: CancellationException) {
         throw cancelled
     } catch (_: Exception) {
@@ -34,6 +35,19 @@ class OperatorRepository {
             404 -> "The reservation, transaction, or station slot was not found."
             409 -> "Already completed, expired, or conflicting reservation state. Refresh or scan again."
             else -> "The server could not complete this action. Please try again."
+        }
+
+        private fun messageFor(response: Response<*>): String {
+            val raw = response.errorBody()?.string()
+            if (!raw.isNullOrBlank()) {
+                try {
+                    val json = JSONObject(raw)
+                    if (json.has("message")) return json.getString("message")
+                } catch (_: Exception) {
+                    // Fall back to the status-specific message below.
+                }
+            }
+            return messageFor(response.code())
         }
     }
 }
