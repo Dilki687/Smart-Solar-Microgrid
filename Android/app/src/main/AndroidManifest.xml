@@ -88,17 +88,20 @@
             android:name=".ui.backoffice.BookingSlotManagementActivity"
             android:exported="false" />
 
-        <!-- Authentication screen. -->
+        <!-- Branded entry screen. -->
         <activity
-            android:name=".ui.auth.LoginActivity"
+            android:name=".ui.auth.LandingActivity"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Authentication screen. -->
+        <activity
+            android:name=".ui.auth.LoginActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
